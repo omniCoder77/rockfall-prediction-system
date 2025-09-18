@@ -151,7 +151,6 @@ object MqttPublishAllSensors {
     }
 
     private fun generateMockImageData(): ByteArray {
-        // Generate mock binary data representing an image
         val mockImageSize = 1024 // 1KB mock image
         return ByteArray(mockImageSize) { Random.nextInt(0, 256).toByte() }
     }
@@ -177,7 +176,6 @@ object MqttPublishAllSensors {
     }
 }
 
-// For continuous publishing (uncomment if needed)
 object MqttContinuousPublisher {
     private val gson = Gson()
     private val broker = "tcp://localhost:1883"

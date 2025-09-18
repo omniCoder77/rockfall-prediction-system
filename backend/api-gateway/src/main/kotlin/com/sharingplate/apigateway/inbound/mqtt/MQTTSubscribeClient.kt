@@ -2,14 +2,16 @@ package com.sharingplate.apigateway.inbound.mqtt
 
 import com.google.gson.Gson
 import com.sharingplate.apigateway.inbound.mqtt.dto.*
+import com.sharingplate.apigateway.infrastructure.persistence.influxdb.InfluxDBInitializer
 import jakarta.annotation.PostConstruct
 import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import kotlin.concurrent.thread
 
 @Component
-class MqttSensorSubscriber {
+class MqttSensorSubscriber(private val influxDBInitializer: InfluxDBInitializer) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -122,31 +124,31 @@ class MqttSensorSubscriber {
     }
 
     private fun processDisplacementData(data: DisplacementData) {
-        logger.info("Displacement data received: Station ${data.stationId}, TiltX: ${data.tiltX}°, TiltY: ${data.tiltY}°")
+        influxDBInitializer.addDisplacementData(data)
     }
 
     private fun processStrainData(data: StrainData) {
-        logger.info("Strain data received: Station ${data.stationId}, Strain: ${data.strainValue} µε")
+        influxDBInitializer.addStrainData(data)
     }
 
     private fun processPorePressureData(data: PorePressureData) {
-        logger.info("Pore pressure data received: Station ${data.stationId}, Pressure: ${data.pressure} kPa")
+        influxDBInitializer.addPressureData(data)
     }
 
     private fun processRainfallData(data: RainfallData) {
-        logger.info("Rainfall data received: Station ${data.stationId}, Total: ${data.totalRainfall} mm")
+        influxDBInitializer.addRainfallData(data)
     }
 
     private fun processVibrationData(data: VibrationData) {
-        logger.info("Vibration data received: Station ${data.stationId}, Magnitude: ${data.magnitude} g")
+        influxDBInitializer.addVibrationData(data)
     }
 
     private fun processTemperatureData(data: TemperatureData) {
-        logger.info("Temperature data received: Station ${data.stationId}, Temp: ${data.temperature}°C")
+        influxDBInitializer.addTemperatureData(data)
     }
 
     private fun processDroneImageData(data: DroneImageData) {
-        logger.info("Drone image data received: Drone ${data.droneId}, Location: ${data.gpsLatitude}, ${data.gpsLongitude}")
+        influxDBInitializer.addDroneData(data)
     }
 
     fun disconnect() {
@@ -158,5 +160,19 @@ class MqttSensorSubscriber {
 }
 
 fun main() {
-    MqttSensorSubscriber().init()
+    val influx =         InfluxDBInitializer(
+        "http://localhost:8086",
+        "c98kUKxwTWvoO58UlHCNa0YJLqDzX8PjT7tQIUEA5nxLU3Dq1nw1uOuHr23QftO41qyc-ci_gtHZmpFHwQs9dA==",
+        "MineProtector",
+        "MineProtector"
+    )
+
+    val subscriber = MqttSensorSubscriber(influx)
+    subscriber.init()
+    thread(start = true) {
+        while (true) {
+            influx.writeBatchData()
+            Thread.sleep(3000)
+        }
+    }
 }
