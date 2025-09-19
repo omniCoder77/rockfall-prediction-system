@@ -196,7 +196,6 @@ object MqttContinuousPublisher {
             sampleClient.connect(connOpts)
             println("Connected - Starting continuous publishing (Ctrl+C to stop)")
 
-            // Publish data every 5 seconds
             while (true) {
                 val stationId = "STATION_${Random.nextInt(1, 5)}"
                 val currentTime = Instant.now().toEpochMilli()
@@ -204,7 +203,7 @@ object MqttContinuousPublisher {
                 println("\n--- Publishing batch for $stationId ---")
                 publishAllSensorData(sampleClient, stationId, currentTime)
 
-                Thread.sleep(5000) // 5 second interval
+                Thread.sleep(5000)
             }
 
         } catch (me: MqttException) {
