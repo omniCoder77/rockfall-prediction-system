@@ -1,3 +1,7 @@
+Here's the updated API documentation, incorporating the `jobId` field in the registration request and removing the password constraints from the `RegisterRequest` and `ResetPasswordRequest` DTOs, as they are now handled at the service layer by `PasswordEncoder`. I've also made a minor correction to the `LoginResponse` for OTP.
+
+---
+
 # Auth Service API Documentation
 
 This document describes the RESTful API for the Auth Service, which handles user registration, login, password management, token refreshing, and multi-factor authentication.
@@ -25,14 +29,16 @@ Registers a new administrator account with the provided details.
       "name": "string",
       "phoneNumber": "string",
       "email": "string",
-      "password": "string"
+      "password": "string",
+      "jobId": "string"
     }
     ```
     **Constraints:**
     *   `name`: Not blank.
     *   `phoneNumber`: Valid phone number format (e.g., `+11234567890`).
     *   `email`: Valid email format, max 100 characters.
-    *   `password`: Not blank. (Further password policy validation like min length, complexity should ideally be added at the service layer if not already handled).
+    *   `password`: Not blank. (Password policy validation like min length, complexity is handled at the service layer).
+    *   `jobId`: Not blank. This identifier is used to determine the user's role (e.g., ADMIN, SUPERVISOR, USER).
 -   **Success Response:** `201 Created`
     ```json
     {
@@ -42,7 +48,7 @@ Registers a new administrator account with the provided details.
     }
     ```
 -   **Error Responses:**
-    *   `409 Conflict`: If a user with the provided email or phone number already exists.
+    *   `409 Conflict`: If a user with the provided email, phone number, or job ID already exists.
         ```json
         {
           "userId": "",
@@ -106,7 +112,7 @@ Authenticates a user either with email/password or initiates an OTP flow with a 
         ```
     *   **Phone Number OTP Request (`200 OK`):**
         ```json
-        "OTP" 
+        "OTP"
         ```
 -   **Error Responses:**
     *   `400 Bad Request`: If request body validation fails (e.g., missing fields, both email and phone number, or password missing for email login).
@@ -211,7 +217,7 @@ Resets the user's password using a valid reset token.
     }
     ```
     **Constraints:**
-    *   `newPassword`: Not blank. (Further password policy validation should ideally be added at the service layer).
+    *   `newPassword`: Not blank. (Password policy validation is handled at the service layer).
 -   **Success Response:** `200 OK`
     ```
     "Password has been reset successfully."
@@ -292,4 +298,4 @@ Obtains a new access token and refresh token using a valid refresh token.
           "accessToken": "",
           "refreshToken": ""
         }
-
+        ```
