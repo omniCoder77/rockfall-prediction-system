@@ -1,0 +1,43 @@
+POST http://localhost:8080/api/monitoring/predict-risk
+Content-Type: application/json
+
+{
+  "timestamp": 0,
+  "stationId": "",
+  "zone": "",
+  "lat": 0,
+  "lon": 0,
+  "elevationM": 0,
+  "rainfallMm": 0,
+  "dispIncMm": 0,
+  "strainIncMicro": 0,
+  "poreKpa": 0,
+  "vibration": 0,
+  "blastFlag": 0,
+  "sensorStatus": "",
+  "cumulativeDispMm": 0,
+  "dispRate6h": 0,
+  "strain6h": 0,
+  "pore6h": 0,
+  "vib6h": 0,
+  "riskScoreRaw": 0,
+  "riskScoreNorm": 0,
+  "riskLabel": "",
+  "eventProb": 0,
+  "rockfallEvent": 0
+}
+###
+POST http://localhost:8080/api/v1/ml/predict
+Content-Type: application/json
+
+{
+  "stationId": "4567890",
+  "demData": [],
+  "droneImageryFeatures": [],
+  "geotechnicalSensorData": "",
+  "environmentalFactors": ""
+}
+###
+GET http://localhost:8080/api/v1/ml/health
+###
+GET http://localhost:8080/api/v1/ml/info
