@@ -47,7 +47,7 @@ class RegisterServiceImpl(
                             )
                         }
                         .doOnError { e -> logger.error("Failed to register admin with email {}: {}", email, e.message) }
-                        .map { adminId -> Pair(adminId, role) } // Return adminId and role
+                        .map { adminId -> Pair(adminId, role) }
                 }).onErrorResume { e ->
                 if (e is UserAlreadyExistsException) {
                     Mono.error(e)

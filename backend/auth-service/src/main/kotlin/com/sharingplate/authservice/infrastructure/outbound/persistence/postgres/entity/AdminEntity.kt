@@ -20,7 +20,7 @@ data class AdminEntity(
     val jobId: String
 ) : UserDetails {
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        return listOf(SimpleGrantedAuthority("ROLE_${determineRole(jobId)}"))
+        return emptyList()
     }
 
     override fun getPassword(): String {
@@ -37,14 +37,8 @@ data class AdminEntity(
         phoneNumber = this.phoneNumber,
         email = this.email,
         password = this.password,
-        jobId = this.jobId // Include jobId
+        jobId = this.jobId
     )
-
-    private fun determineRole(jobId: String): String {
-        // This is a placeholder. In a real scenario, this logic would live
-        // in a service that reads from your job ID files.
-        return if (jobId.startsWith("ADMIN")) "ADMIN" else "SUPERVISOR"
-    }
 }
 
 fun Admin.toEntity(): AdminEntity {
@@ -54,6 +48,6 @@ fun Admin.toEntity(): AdminEntity {
         phoneNumber = this.phoneNumber,
         email = this.email,
         _password = this.password,
-        jobId = this.jobId // Include jobId
+        jobId = this.jobId
     )
 }
