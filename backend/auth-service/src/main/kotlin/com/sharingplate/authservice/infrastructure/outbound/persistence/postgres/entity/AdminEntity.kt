@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.util.*
 
@@ -15,10 +16,11 @@ data class AdminEntity(
     val phoneNumber: String,
     val email: String,
     @Column("password")
-    private val _password: String
+    private val _password: String,
+    val jobId: String
 ) : UserDetails {
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        return emptyList()
+        return listOf(SimpleGrantedAuthority("ROLE_${determineRole(jobId)}"))
     }
 
     override fun getPassword(): String {
@@ -34,8 +36,15 @@ data class AdminEntity(
         name = this.name,
         phoneNumber = this.phoneNumber,
         email = this.email,
-        password = this.password
+        password = this.password,
+        jobId = this.jobId // Include jobId
     )
+
+    private fun determineRole(jobId: String): String {
+        // This is a placeholder. In a real scenario, this logic would live
+        // in a service that reads from your job ID files.
+        return if (jobId.startsWith("ADMIN")) "ADMIN" else "SUPERVISOR"
+    }
 }
 
 fun Admin.toEntity(): AdminEntity {
@@ -44,6 +53,7 @@ fun Admin.toEntity(): AdminEntity {
         name = this.name,
         phoneNumber = this.phoneNumber,
         email = this.email,
-        _password = this.password
+        _password = this.password,
+        jobId = this.jobId // Include jobId
     )
 }

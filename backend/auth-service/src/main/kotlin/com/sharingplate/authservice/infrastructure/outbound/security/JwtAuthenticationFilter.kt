@@ -3,6 +3,7 @@ package com.sharingplate.authservice.infrastructure.outbound.security
 import com.sharingplate.authservice.domain.port.driven.TokenService
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.ReactiveSecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
@@ -24,15 +25,18 @@ class JwtAuthenticationFilter(
 
         val token = authHeader.removePrefix("Bearer ")
 
-        return Mono.justOrEmpty(tokenService.getSubject(token)).flatMap { username ->
+        return Mono.justOrEmpty(tokenService.getClaims(token)).flatMap { claims ->
+            val username = claims.subject
+            val roles = claims["roles"] as? List<String> ?: emptyList()
+            val authorities = roles.map { SimpleGrantedAuthority("ROLE_$it") }
+
             userDetailsService.findByUsername(username).flatMap { userDetails ->
                 val authentication = UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.authorities
+                    userDetails, null, authorities
                 )
                 chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication))
             }
         }
             .switchIfEmpty(chain.filter(exchange))
     }
-
 }

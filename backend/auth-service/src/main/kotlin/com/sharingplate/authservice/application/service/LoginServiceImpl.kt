@@ -22,6 +22,7 @@ class LoginServiceImpl(
     private val passwordEncoder: PasswordEncoder,
     private val tokenService: TokenService,
     private val cacheRepository: CacheRepository,
+    private val roleService: RoleService, // Inject RoleService
     @Value("\${jwt.token.refresh.key.prefix:refresh_token:}") private val refreshTokenKeyPrefix: String
 ) : LoginService {
 
@@ -39,8 +40,11 @@ class LoginServiceImpl(
             .flatMap { admin ->
                 if (passwordEncoder.matches(password, admin.password)) {
                     val adminId = admin.adminId.toString()
-                    val accessToken = tokenService.generateAccessToken(adminId)
-                    val refreshToken = tokenService.generateRefreshToken(adminId)
+                    val role = roleService.determineRole(admin.jobId).name // Determine role based on jobId
+                    val claims = mapOf("roles" to listOf(role)) // Add role to claims
+
+                    val accessToken = tokenService.generateAccessToken(adminId, claims)
+                    val refreshToken = tokenService.generateRefreshToken(adminId, claims)
 
                     cacheRepository.store(
                         refreshTokenKeyPrefix + adminId,
@@ -48,7 +52,7 @@ class LoginServiceImpl(
                         tokenService.getRefreshTokenExpiry().toSeconds(),
                         ChronoUnit.SECONDS
                     ).thenReturn(Pair(accessToken, refreshToken))
-                        .doOnSuccess { logger.info("Successful login for admin: {}", adminId) }.doOnError { e ->
+                        .doOnSuccess { logger.info("Successful login for admin: {} with role: {}", adminId, role) }.doOnError { e ->
                             logger.error(
                                 "Failed to store refresh token for admin {}: {}",
                                 adminId,
@@ -64,23 +68,28 @@ class LoginServiceImpl(
 
     override fun refreshAccessToken(refreshToken: String): Mono<Pair<String, String>> {
         logger.debug("Attempting to refresh access token with refresh token")
-        return Mono.justOrEmpty(tokenService.getSubject(refreshToken))
-            .switchIfEmpty(Mono.error(InvalidTokenException("Invalid refresh token subject."))).flatMap { adminId ->
+        return Mono.justOrEmpty(tokenService.getClaims(refreshToken)) // Get all claims to extract roles
+            .switchIfEmpty(Mono.error(InvalidTokenException("Invalid refresh token subject or claims missing.")))
+            .flatMap { claims ->
+                val adminId = claims.subject
+                val roles = claims["roles"] as? List<String> ?: emptyList()
+                val roleClaims = mapOf("roles" to roles) // Pass roles back to new token claims
+
                 cacheRepository.read(refreshTokenKeyPrefix + adminId, String::class.java)
                     .switchIfEmpty(Mono.error(InvalidTokenException("Refresh token not found or expired in cache for admin: $adminId")))
                     .flatMap { cachedRefreshToken ->
                         if (cachedRefreshToken == refreshToken) {
-                            val newAccessToken = tokenService.generateAccessToken(adminId)
-                            val newRefreshToken = tokenService.generateRefreshToken(adminId)
+                            val newAccessToken = tokenService.generateAccessToken(adminId, roleClaims) // Include roles
+                            val newRefreshToken = tokenService.generateRefreshToken(adminId, roleClaims) // Include roles
 
                             cacheRepository.remove(refreshTokenKeyPrefix + adminId).then(
-                                    cacheRepository.store(
-                                        refreshTokenKeyPrefix + adminId,
-                                        newRefreshToken,
-                                        tokenService.getRefreshTokenExpiry().toSeconds(),
-                                        ChronoUnit.SECONDS
-                                    )
-                                ).thenReturn(Pair(newAccessToken, newRefreshToken))
+                                cacheRepository.store(
+                                    refreshTokenKeyPrefix + adminId,
+                                    newRefreshToken,
+                                    tokenService.getRefreshTokenExpiry().toSeconds(),
+                                    ChronoUnit.SECONDS
+                                )
+                            ).thenReturn(Pair(newAccessToken, newRefreshToken))
                                 .doOnSuccess { logger.info("Successfully refreshed tokens for admin: {}", adminId) }
                                 .doOnError { e ->
                                     logger.error(
@@ -104,16 +113,16 @@ class LoginServiceImpl(
     override fun logout(adminId: String): Mono<Boolean> {
         logger.debug("Attempting to logout admin: {}", adminId)
         return cacheRepository.remove(refreshTokenKeyPrefix + adminId).map { count ->
-                if (count > 0) {
-                    logger.info("Logged out admin {} by removing refresh token from cache.", adminId)
-                    true
-                } else {
-                    logger.info("Logout for admin {} completed, but no refresh token was found in cache.", adminId)
-                    false
-                }
-            }.onErrorResume { e ->
-                logger.error("Error during logout for admin {}: {}", adminId, e.message)
-                Mono.just(false)
+            if (count > 0) {
+                logger.info("Logged out admin {} by removing refresh token from cache.", adminId)
+                true
+            } else {
+                logger.info("Logout for admin {} completed, but no refresh token was found in cache.", adminId)
+                false
             }
+        }.onErrorResume { e ->
+            logger.error("Error during logout for admin {}: {}", adminId, e.message)
+            Mono.just(false)
+        }
     }
 }

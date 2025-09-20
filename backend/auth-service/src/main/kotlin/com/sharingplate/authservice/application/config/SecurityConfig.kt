@@ -4,6 +4,7 @@ import com.sharingplate.authservice.infrastructure.outbound.security.JwtAuthenti
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder
 import org.springframework.security.config.web.server.ServerHttpSecurity
@@ -35,9 +36,14 @@ class SecurityConfig(
             .csrf { it.disable() }
             .authorizeExchange { exchanges ->
                 exchanges.pathMatchers(
-                    "/api/v1/auth/**",
+                    "/api/v1/auth/register",
+                    "/api/v1/auth/login",
+                    "/api/v1/auth/password/**",
+                    "/api/v1/auth/token/refresh",
                     "/actuator/**"
                 ).permitAll()
+                exchanges.pathMatchers(HttpMethod.GET, "/api/v1/some-resource-for-supervisor").hasAnyRole("SUPERVISOR", "ADMIN")
+                exchanges.pathMatchers(HttpMethod.POST, "/api/v1/admin-only-resource").hasRole("ADMIN")
                 exchanges.anyExchange().authenticated()
             }
             .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)

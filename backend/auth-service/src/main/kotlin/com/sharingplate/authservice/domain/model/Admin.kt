@@ -7,5 +7,6 @@ data class Admin(
     val name: String,
     val phoneNumber: String,
     val email: String,
-    val password: String
+    val password: String,
+    val jobId: String
 )

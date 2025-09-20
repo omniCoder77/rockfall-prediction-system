@@ -1,14 +1,18 @@
 @email = test@example.com
 @password = !Password123
+@phoneNumber = +12345678901
+@jobIdUser = KVakReA0AW
 
+### Register a new user
 POST http://localhost:8081/api/v1/auth/register
 Content-Type: application/json
 
 {
   "name": "Test User",
-  "phoneNumber": "",
+  "phoneNumber": "{{phoneNumber}}",
   "email": "{{email}}",
-  "password": "{{password}}"
+  "password": "{{password}}",
+  "jobId": "{{jobIdUser}}"
 }
 > {%
     if (response.status === 201) {
@@ -17,13 +21,15 @@ Content-Type: application/json
             client.global.set("accessToken", responseBody.accessToken);
             client.global.set("userId", responseBody.userId);
             client.global.set("refreshToken", responseBody.refreshToken);
+            console.log("Registration successful. userId:", responseBody.userId);
         }
+    } else {
+        console.error("Registration failed:", response.body);
     }
 %}
 <> 2025-09-14T150209.500.json
 
-###
-
+### Login with email and password
 POST http://localhost:8081/api/v1/auth/login
 Content-Type: application/json
 
@@ -37,29 +43,55 @@ Content-Type: application/json
         if (responseBody.accessToken) {
             client.global.set("accessToken", responseBody.accessToken);
             client.global.set("refreshToken", responseBody.refreshToken);
+            console.log("Login successful. Access Token:", responseBody.accessToken.substring(0, 20) + "...");
+        } else if (responseBody.error) {
+            console.error("Login failed:", responseBody.error);
         }
+    } else {
+        console.error("Login failed with status", response.status, ":", response.body);
     }
 %}
 
-###
+### Request a password reset link
+# IMPORTANT: This will send an email. For automated testing, you'd need to intercept the email
+# and extract the token. For manual testing, check your configured email service/logs.
+# The `resetToken` global variable needs to be set manually after running this request
+# and before running the actual password reset.
 POST http://localhost:8081/api/v1/auth/password/request
 Content-Type: application/json
 
 {
   "email": "{{email}}"
 }
+> {%
+    if (response.status === 200) {
+        console.log("Password reset request sent. Check email for token.");
+        // In a real automated test, you would parse email or logs to get the token.
+        // For now, you need to manually set client.global.set("resetToken", "THE_TOKEN_FROM_EMAIL");
+    } else {
+        console.error("Password reset request failed:", response.body);
+    }
+%}
 
-###
-
-POST http://localhost:8081/api/v1/auth/password/reset?token=GddMFVYWdMTAwR9h1Orx4WcbQ_2BWpSYQWWMnkSIuWE
+### Reset password using the token
+# Before running this, you MUST manually set the 'resetToken' global variable
+# with the actual token received from the password reset email.
+# Example: client.global.set("resetToken", "your_actual_token_here");
+POST http://localhost:8081/api/v1/auth/password/reset?token=UFh1FjsxXp74b_WoVnU_rqGQq23kUbhQjqSLgoOd_Xo
 Content-Type: application/json
 
 {
   "newPassword": "{{password}}123"
 }
+> {%
+    if (response.status === 200) {
+        console.log("Password reset successfully.");
+    } else {
+        console.error("Password reset failed:", response.body);
+    }
+%}
 
-###
-
+### Refresh access token using refresh token
 POST http://localhost:8081/api/v1/auth/token/refresh
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
@@ -73,10 +105,24 @@ Authorization: Bearer {{accessToken}}
         if (responseBody.accessToken) {
             client.global.set("accessToken", responseBody.accessToken);
             client.global.set("refreshToken", responseBody.refreshToken);
+            console.log("Tokens refreshed. New Access Token:", responseBody.accessToken.substring(0, 20) + "...");
         }
+    } else {
+        console.error("Token refresh failed:", response.body);
     }
 %}
 
-###
+### Logout
 POST http://localhost:8081/api/v1/auth/logout
 Authorization: Bearer {{accessToken}}
+
+> {%
+    if (response.status === 200) {
+        console.log("Logout successful.");
+        client.global.clear("accessToken");
+        client.global.clear("refreshToken");
+        client.global.clear("userId");
+    } else {
+        console.error("Logout failed:", response.body);
+    }
+%}

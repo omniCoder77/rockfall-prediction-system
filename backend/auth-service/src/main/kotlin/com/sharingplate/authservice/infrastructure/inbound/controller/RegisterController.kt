@@ -28,12 +28,13 @@ class RegisterController(
     fun register(@Valid @RequestBody registerRequest: RegisterRequest): Mono<ResponseEntity<RegisterResponse>> {
         logger.info("Received registration request for email: {}", registerRequest.email)
         return registerService.register(
-            registerRequest.name, registerRequest.email, registerRequest.password, registerRequest.phoneNumber
+            registerRequest.name, registerRequest.email, registerRequest.password, registerRequest.phoneNumber, registerRequest.jobId // Pass jobId
         )
-            .flatMap { adminId ->
-                val accessToken = tokenService.generateAccessToken(adminId)
-                val refreshToken = tokenService.generateRefreshToken(adminId)
-                logger.info("Registration successful for admin ID: {}", adminId)
+            .flatMap { (adminId, role) -> // Destructure the Pair here
+                val claims = mapOf("roles" to listOf(role))
+                val accessToken = tokenService.generateAccessToken(adminId, claims)
+                val refreshToken = tokenService.generateRefreshToken(adminId, claims)
+                logger.info("Registration successful for admin ID: {} with role: {}", adminId, role)
                 Mono.just(ResponseEntity.status(HttpStatus.CREATED).body(RegisterResponse(adminId, accessToken, refreshToken)))
             }
             .onErrorResume(UserAlreadyExistsException::class.java) { e ->

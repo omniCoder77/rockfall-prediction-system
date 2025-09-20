@@ -1,5 +1,6 @@
 package com.sharingplate.authservice.infrastructure.inbound.handler
 
+import com.sharingplate.authservice.domain.exception.AccessDeniedException // Import new exception
 import com.sharingplate.authservice.domain.exception.AdminNotFoundException
 import com.sharingplate.authservice.domain.exception.InvalidCredentialsException
 import com.sharingplate.authservice.domain.exception.InvalidTokenException
@@ -37,6 +38,11 @@ class GlobalErrorAttributes : DefaultErrorAttributes() {
                 errorAttributes["status"] = HttpStatus.CONFLICT.value()
                 errorAttributes["error"] = HttpStatus.CONFLICT.reasonPhrase
                 errorAttributes["message"] = error.message ?: "User already exists."
+            }
+            is AccessDeniedException -> { // Handle AccessDeniedException
+                errorAttributes["status"] = HttpStatus.FORBIDDEN.value()
+                errorAttributes["error"] = HttpStatus.FORBIDDEN.reasonPhrase
+                errorAttributes["message"] = error.message ?: "Access denied: Insufficient privileges."
             }
             is IllegalArgumentException -> {
                 errorAttributes["status"] = HttpStatus.BAD_REQUEST.value()

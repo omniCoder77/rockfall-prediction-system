@@ -32,10 +32,17 @@ class AdminRepositoryImpl(private val r2dbcEntityTemplate: R2dbcEntityTemplate) 
         ).singleOrEmpty().map { it.toAdmin() }
     }
 
-    override fun findAdminByPhoneNumber(phoneNumber: String): Mono<Admin> { // New implementation
+    override fun findAdminByPhoneNumber(phoneNumber: String): Mono<Admin> {
         logger.debug("Finding admin by phone number: {}", phoneNumber)
         return r2dbcEntityTemplate.select(
             Query.query(Criteria.where("phone_number").`is`(phoneNumber)), AdminEntity::class.java
+        ).singleOrEmpty().map { it.toAdmin() }
+    }
+
+    override fun findAdminByJobId(jobId: String): Mono<Admin> { // New implementation
+        logger.debug("Finding admin by job ID: {}", jobId)
+        return r2dbcEntityTemplate.select(
+            Query.query(Criteria.where("job_id").`is`(jobId)), AdminEntity::class.java
         ).singleOrEmpty().map { it.toAdmin() }
     }
 

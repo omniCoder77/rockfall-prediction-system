@@ -6,15 +6,13 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ResourceLoader
 import org.springframework.stereotype.Service
-import java.io.File
+import java.util.*
 
 @Service
 class RoleService(
     private val resourceLoader: ResourceLoader,
-    @Value("\${auth.admin-job-id-file:file:/home/rishabh/IdeaProjects/rockfall-prediction-system/backend/auth-service/admin.txt}")
-    private val adminJobIdFilePath: String,
-    @Value("\${auth.supervisor-job-id-file:file:/home/rishabh/IdeaProjects/rockfall-prediction-system/backend/auth-service/supervisor.txt}")
-    private val supervisorJobIdFilePath: String
+    @Value("\${auth.admin-job-id-file:file:/home/rishabh/IdeaProjects/rockfall-prediction-system/backend/auth-service/admin.txt}") private val adminJobIdFilePath: String,
+    @Value("\${auth.supervisor-job-id-file:file:/home/rishabh/IdeaProjects/rockfall-prediction-system/backend/auth-service/supervisor.txt}") private val supervisorJobIdFilePath: String
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 

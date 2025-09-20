@@ -29,6 +29,7 @@ class AuthUserDetailService(
                 .doOnError { e -> logger.warn("Failed to find admin by ID {}: {}", username, e.message) }
         } catch (e: IllegalArgumentException) {
             adminRepository.findAdminByEmail(username)
+                .map { it.toEntity() }
                 .cast(UserDetails::class.java)
                 .switchIfEmpty(Mono.error(AdminNotFoundException(username)))
                 .doOnSuccess { userDetails -> logger.debug("Found admin by email: {}", userDetails.username) }
