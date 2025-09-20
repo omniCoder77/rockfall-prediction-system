@@ -1,7 +1,3 @@
-Here's the updated API documentation, incorporating the `jobId` field in the registration request and removing the password constraints from the `RegisterRequest` and `ResetPasswordRequest` DTOs, as they are now handled at the service layer by `PasswordEncoder`. I've also made a minor correction to the `LoginResponse` for OTP.
-
----
-
 # Auth Service API Documentation
 
 This document describes the RESTful API for the Auth Service, which handles user registration, login, password management, token refreshing, and multi-factor authentication.
