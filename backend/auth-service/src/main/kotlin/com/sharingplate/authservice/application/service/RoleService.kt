@@ -1,7 +1,6 @@
 package com.sharingplate.authservice.application.service
 
 import com.sharingplate.authservice.domain.model.Role
-import jakarta.annotation.PostConstruct
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ResourceLoader
@@ -19,8 +18,7 @@ class RoleService(
     private val adminJobIds: MutableSet<String> = Collections.synchronizedSet(mutableSetOf())
     private val supervisorJobIds: MutableSet<String> = Collections.synchronizedSet(mutableSetOf())
 
-    @PostConstruct
-    fun init() {
+    init {
         loadJobIdsFromFile(adminJobIdFilePath, adminJobIds, "Admin")
         loadJobIdsFromFile(supervisorJobIdFilePath, supervisorJobIds, "Supervisor")
     }
@@ -51,15 +49,7 @@ class RoleService(
         return when {
             adminJobIds.contains(jobId) -> Role.ADMIN
             supervisorJobIds.contains(jobId) -> Role.SUPERVISOR
-            else -> Role.USER // Default role for any other jobId
+            else -> Role.USER
         }
-    }
-
-    // For testing purposes or manual reload if files change
-    fun reloadJobIds() {
-        logger.info("Reloading job IDs from files.")
-        adminJobIds.clear()
-        supervisorJobIds.clear()
-        init()
     }
 }

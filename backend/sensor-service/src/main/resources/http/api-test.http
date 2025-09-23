@@ -1,0 +1,103 @@
+@host = http://localhost:8080
+@api_prefix = {{host}}/api/v1
+
+### 1. Add a new DISPLACEMENT sensor to station-01
+POST {{api_prefix}}/sensors
+Content-Type: application/json
+
+{
+  "stationId": "station-01",
+  "sensorType": "DISPLACEMENT"
+}
+
+### 2. Add a new TEMPERATURE sensor to station-01
+POST {{api_prefix}}/sensors
+Content-Type: application/json
+
+{
+  "stationId": "station-01",
+  "sensorType": "TEMPERATURE"
+}
+
+
+### 3. Add a new RAINFALL sensor to station-02
+POST {{api_prefix}}/sensors
+Content-Type: application/json
+
+{
+  "stationId": "station-02",
+  "sensorType": "RAINFALL"
+}
+
+
+### 4. Attempt to add a duplicate sensor (should return 400 Bad Request)
+POST {{api_prefix}}/sensors
+Content-Type: application/json
+
+{
+  "stationId": "station-01",
+  "sensorType": "DISPLACEMENT"
+}
+
+
+### 5. Get all sensors registered in the service
+GET {{api_prefix}}/sensors/sensors
+
+
+### 6. Get only active sensors
+# Note: Sensor status is managed by MQTT connections, so this list might be the same as "all sensors" initially.
+GET {{api_prefix}}/sensors/active-sensors
+
+
+### 7. Get inactive sensors
+# Note: This list will be populated when a sensor's LWT message is received.
+GET {{api_prefix}}/unactive-sensors
+
+
+### 8. Update a sensor
+PATCH {{api_prefix}}/sensors
+Content-Type: application/json
+
+{
+  "stationId": "station-001",
+  "sensorType": "DISPLACEMENT"
+}
+
+### 9. Remove a sensor (DISPLACEMENT from station-01)
+DELETE {{api_prefix}}/sensors
+Content-Type: application/json
+
+{
+  "stationId": "station-01",
+  "sensorType": "DISPLACEMENT"
+}
+
+### 10. Verify the sensor was removed by getting all sensors again
+GET {{api_prefix}}/sensors/sensors
+
+
+### 11. Get history for ALL sensors with default parameters (last 1 day, 1-hour interval)
+GET {{api_prefix}}/history/sensors
+
+### 12. Get history for ALL sensors for the last 6 hours with a 30-minute interval
+GET {{api_prefix}}/history/sensors?start=-6h&interval=30m
+
+
+### 13. Get history for all sensors at a specific station (station-01)
+GET {{api_prefix}}/history/sensors/station/station-01
+
+
+### 14. Get history for all sensors at a specific station (station-02) with custom time range
+GET {{api_prefix}}/history/sensors/station/station-02?start=-12h&stop=-1h&interval=15m
+
+
+### 15. Get history for a specific sensor type (temperature) across ALL stations
+GET {{api_prefix}}/history/sensors/type/temperature
+
+
+### 16. Get history for a specific sensor type (displacement) across ALL stations
+GET {{api_prefix}}/history/sensors/type/displacement?interval=10m
+
+
+### 17. Get history for a specific sensor type (rainfall) at a specific station (station-02)
+GET {{api_prefix}}/history/sensors/type/rainfall?stationId=station-02&start=-2d&interval=6h
