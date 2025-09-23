@@ -23,9 +23,11 @@ class SensorController(
             sensorService.addSensor(addSensorRequest.stationId, addSensorRequest.sensorType)
             ResponseEntity.ok().build()
         } catch (e: IllegalArgumentException) {
+            logger.error(e.message, e)
             ResponseEntity.badRequest()
                 .body("${addSensorRequest.sensorType.name} sensor is already present at station ${addSensorRequest.stationId}")
         } catch (e: Exception) {
+            logger.error(e.message, e)
             ResponseEntity.internalServerError().build()
         }
     }
@@ -36,6 +38,7 @@ class SensorController(
             sensorService.updateSensor(addSensorRequest.stationId, addSensorRequest.sensorType)
             ResponseEntity.ok().build()
         } catch (e: Exception) {
+            logger.error(e.message, e)
             ResponseEntity.internalServerError().build()
         }
     }
@@ -46,6 +49,7 @@ class SensorController(
             sensorService.removeSensor(deleteSensorRequest.stationId, deleteSensorRequest.sensorType)
             ResponseEntity.ok().build()
         } catch (e: Exception) {
+            logger.error(e.message, e)
             ResponseEntity.internalServerError().build()
         }
     }
@@ -56,6 +60,7 @@ class SensorController(
             val activeSensors = sensorService.getActiveSensors().map { SensorResponse(it.stationId, SensorType.valueOf(it.sensorType)) }
             ResponseEntity.ok(activeSensors)
         } catch (e: Exception) {
+            logger.error(e.message, e)
             ResponseEntity.internalServerError().build()
         }
     }
@@ -66,6 +71,7 @@ class SensorController(
             val activeSensors = sensorService.getInactiveSensors().map { SensorResponse(it.stationId, SensorType.valueOf(it.sensorType)) }
             ResponseEntity.ok(activeSensors)
         } catch (e: Exception) {
+            logger.error(e.message, e)
             ResponseEntity.internalServerError().build()
         }
     }

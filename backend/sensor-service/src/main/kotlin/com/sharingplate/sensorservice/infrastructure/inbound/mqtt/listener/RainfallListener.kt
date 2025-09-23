@@ -15,9 +15,14 @@ class RainfallListener(
     override fun onReceive(station: String, payload: String) {
         val data = Gson().fromJson(payload, RainfallDataEntity::class.java)
         rainfallDataRepository.save(station, data.toDomain())
+        val newValues = mapOf(
+            "rainfallIncrement" to data.rainfallIncrement,
+            "totalRainfall" to data.totalRainfall
+        )
+        sensorService.processSensorData(station, SensorType.RAINFALL, newValues)
     }
 
     override fun onConnectionLost(station: String) {
-        sensorService.removeSensor(station, SensorType.RAINFALL)
+        sensorService.markSensorAsDisconnected(station, SensorType.RAINFALL)
     }
 }

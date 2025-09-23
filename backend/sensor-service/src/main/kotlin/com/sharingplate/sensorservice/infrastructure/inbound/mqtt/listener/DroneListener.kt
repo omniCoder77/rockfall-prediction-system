@@ -15,9 +15,15 @@ class DroneListener(private val droneImageDataRepository: DroneImageDataReposito
     override fun onReceive(station: String, payload: String) {
         val data = Gson().fromJson(payload, DroneImageDataEntity::class.java)
         droneImageDataRepository.save(station, data.toDomain())
+        val newValues = mapOf(
+            "lat" to data.gpsLatitude,
+            "long" to data.gpsLongitude,
+            "altitude" to data.altitude
+        )
+        sensorService.processSensorData(station, SensorType.DRONE, newValues)
     }
 
     override fun onConnectionLost(station: String) {
-        sensorService.removeSensor(station, SensorType.DRONE)
+        sensorService.markSensorAsDisconnected(station, SensorType.DRONE)
     }
 }

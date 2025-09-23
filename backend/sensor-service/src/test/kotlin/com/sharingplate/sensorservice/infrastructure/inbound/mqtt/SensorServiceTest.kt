@@ -1,7 +1,5 @@
 package com.sharingplate.sensorservice.infrastructure.inbound.mqtt
 
-import org.junit.jupiter.api.TestInstance
-
 import com.google.gson.Gson
 import com.sharingplate.sensorservice.domain.contants.SensorType
 import com.sharingplate.sensorservice.domain.port.driven.DisplacementDataRepository
@@ -43,6 +41,7 @@ class SensorServiceIntegrationTest {
         testMqttClient = MqttClient(brokerUrl, testClientId, MemoryPersistence())
         val options = MqttConnectOptions().apply {
             isCleanSession = true
+            setWill("/health/displacement/station-01", "disconnected".toByteArray(), 2, true)
         }
         testMqttClient.connect(options)
     }
@@ -68,18 +67,14 @@ class SensorServiceIntegrationTest {
         Thread.sleep(100)
     }
 
-
     @Test
     fun `should receive and process message after adding a sensor`() {
         val stationId = "station-1"
         val sensorType = SensorType.DISPLACEMENT
 
-        // Add sensor, which subscribes to the topic
         sensorService.addSensor(stationId, sensorType)
-        // A short pause to ensure the subscription is active on the broker
         Thread.sleep(200)
 
-        // Prepare and publish a test message
         val displacementData = DisplacementDataEntity(tiltX = 1.0, tiltY = 2.0, temperature = 25.0)
         val payload = gson.toJson(displacementData)
         val topic = "${sensorType.topic}/$stationId"
@@ -87,30 +82,7 @@ class SensorServiceIntegrationTest {
 
         testMqttClient.publish(topic, message)
 
-        // Verify that the message was received and the repository's save method was called
-        // Use a timeout to handle the asynchronous nature of message processing
         verify(displacementDataRepository, timeout(1000)).save(any(), any())
-    }
-
-    @Test
-    fun `should handle LWT message and remove the sensor`() {
-        val stationId = "station-lwt"
-        val sensorType = SensorType.DISPLACEMENT
-
-        // Add the sensor so it's being tracked by the service
-        sensorService.addSensor(stationId, sensorType)
-        Assertions.assertTrue(sensorService.getActiveSensors().any { it.stationId == stationId && it.sensorType == sensorType.name })
-
-        // Simulate a Last Will and Testament message by publishing directly to the health topic
-        val healthTopic = "/health/${sensorType.name.lowercase()}/$stationId"
-        val message = MqttMessage("disconnected".toByteArray())
-        testMqttClient.publish(healthTopic, message)
-
-        // Give the service time to process the LWT message
-        Thread.sleep(500)
-
-        // Verify the sensor is completely removed as per the onConnectionLost logic
-        Assertions.assertTrue(sensorService.getAllSensors().none { it.stationId == stationId })
     }
 
     @Test

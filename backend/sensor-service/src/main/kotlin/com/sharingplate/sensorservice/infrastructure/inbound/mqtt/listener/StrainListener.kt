@@ -15,9 +15,15 @@ class StrainListener(@Lazy private val sensorService: SensorService,
     override fun onReceive(station: String, payload: String) {
         val data = Gson().fromJson(payload, StrainDataEntity::class.java)
         strainDataRepository.save(station, data.toDomain())
+        val newValues = mapOf(
+            "strainValue" to data.strainValue,
+            "temperature" to data.temperature,
+            "frequency" to data.frequency
+        )
+        sensorService.processSensorData(station, SensorType.STRAIN, newValues)
     }
 
     override fun onConnectionLost(station: String) {
-        sensorService.removeSensor(station, SensorType.STRAIN)
+        sensorService.markSensorAsDisconnected(station, SensorType.STRAIN)
     }
 }

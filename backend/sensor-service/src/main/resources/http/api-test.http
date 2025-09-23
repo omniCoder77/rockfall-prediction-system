@@ -1,4 +1,4 @@
-@host = http://localhost:8080
+@host = http://localhost:8084
 @api_prefix = {{host}}/api/v1
 
 ### 1. Add a new DISPLACEMENT sensor to station-01

@@ -15,9 +15,16 @@ class VibrationListener(@Lazy private val sensorService: SensorService,
     override fun onReceive(station: String, payload: String) {
         val data = Gson().fromJson(payload, VibrationDataEntity::class.java)
         vibrationDataRepository.save(station, data.toDomain())
+        val newValues = mapOf(
+            "accelX" to data.accelX,
+            "accelY" to data.accelY,
+            "accelZ" to data.accelZ,
+            "magnitude" to data.magnitude
+        )
+        sensorService.processSensorData(station, SensorType.VIBRATION, newValues)
     }
 
     override fun onConnectionLost(station: String) {
-        sensorService.removeSensor(station, SensorType.VIBRATION)
+        sensorService.markSensorAsDisconnected(station, SensorType.VIBRATION)
     }
 }

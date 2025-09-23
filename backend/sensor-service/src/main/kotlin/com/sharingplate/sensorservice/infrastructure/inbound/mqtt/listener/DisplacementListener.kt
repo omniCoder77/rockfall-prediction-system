@@ -16,9 +16,14 @@ class DisplacementListener(
     override fun onReceive(station: String, payload: String) {
         val data = Gson().fromJson(payload, DisplacementDataEntity::class.java)
         displacementDataRepository.save(data.toDomain(), station)
+        val newValues = mapOf(
+            "tiltX" to data.tiltX,
+            "tiltY" to data.tiltY
+        )
+        sensorService.processSensorData(station, SensorType.DISPLACEMENT, newValues)
     }
 
     override fun onConnectionLost(station: String) {
-        sensorService.removeSensor(station, SensorType.DISPLACEMENT)
+        sensorService.markSensorAsDisconnected(station, SensorType.DISPLACEMENT)
     }
 }

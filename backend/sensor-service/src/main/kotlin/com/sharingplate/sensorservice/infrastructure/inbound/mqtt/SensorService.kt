@@ -1,18 +1,21 @@
 package com.sharingplate.sensorservice.infrastructure.inbound.mqtt
 
 import com.google.gson.Gson
+import com.sharingplate.sensorservice.application.config.SensorThresholdsConfig
+import com.sharingplate.sensorservice.application.service.SensorEventNotifier
 import com.sharingplate.sensorservice.domain.contants.SensorType
-import com.sharingplate.sensorservice.infrastructure.inbound.mqtt.dto.SensorStatus
 import com.sharingplate.sensorservice.infrastructure.inbound.mqtt.listener.MQTTListenerFactory
 import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.springframework.context.annotation.Scope
 import org.springframework.context.event.ContextClosedEvent
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Service
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.math.abs
 
 @Service
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -27,10 +30,14 @@ class SensorService(
     private val brokerUrl = "tcp://localhost:1883"
     private val clientId = "RockfallPredictionClient_${System.currentTimeMillis()}"
 
-    // Store all sensors and their status (connected/disconnected)
+    @Autowired
+    private lateinit var sensorEventNotifier: SensorEventNotifier
+    @Autowired
+    private lateinit var thresholdsConfig: SensorThresholdsConfig
+
     data class SensorInfo(
         val stationId: String, val sensorType: String, var status: String, // "connected" or "disconnected"
-        var lastSeen: Long, var lastValue: Double? = null
+        var lastSeen: Long, var lastValues: Map<String, Double> = emptyMap()
     )
 
     private val allSensors = ConcurrentHashMap<String, SensorInfo>()
@@ -77,8 +84,7 @@ class SensorService(
             throw IllegalArgumentException("Error: Sensor with topic '$topic' already exists.")
         }
         mqttClient.subscribe(topic)
-        val sensorInfo =
-            SensorInfo(stationId, sensorType.name, "connected", System.currentTimeMillis(), null)
+        val sensorInfo = SensorInfo(stationId, sensorType.name, "connected", System.currentTimeMillis())
         allSensors[topic] = sensorInfo
     }
 
@@ -104,11 +110,8 @@ class SensorService(
     @Synchronized
     fun updateSensor(stationId: String, sensorType: SensorType) {
         val topic = "${sensorType.topic}/$stationId"
-        // Even if it exists, update it to connected status
-        val sensorInfo =
-            SensorInfo(stationId, sensorType.name, "connected", System.currentTimeMillis(), null)
+        val sensorInfo = SensorInfo(stationId, sensorType.name, "connected", System.currentTimeMillis())
         allSensors[topic] = sensorInfo
-        // Re-subscribe just in case
         mqttClient.subscribe(topic)
     }
 
@@ -141,7 +144,6 @@ class SensorService(
         try {
             val sensorType = SensorType.valueOf(sensorTypeName)
             logger.warn("Received LWT for sensor $sensorType at station $stationId. Marking as disconnected.")
-            // The listener is responsible for calling removeSensor
             mQTTListenerFactory.getListener(sensorType).onConnectionLost(stationId)
         } catch (e: IllegalArgumentException) {
             logger.error("Received health message for unknown sensor type: $sensorTypeName")
@@ -149,7 +151,6 @@ class SensorService(
     }
 
     private fun handleSensorMessage(topic: String, message: MqttMessage) {
-        // Find the matching SensorType from the enum based on the topic prefix
         val sensorType = SensorType.values().find { topic.startsWith(it.topic) } ?: return
 
         val stationId = topic.substringAfter(sensorType.topic + "/")
@@ -169,5 +170,42 @@ class SensorService(
             mqttClient.disconnect()
             logger.info("Disconnected from MQTT broker")
         }
+    }
+
+    @Synchronized
+    fun markSensorAsDisconnected(stationId: String, sensorType: SensorType) {
+        val topic = "${sensorType.topic}/$stationId"
+        allSensors[topic]?.let {
+            it.status = "disconnected"
+            logger.warn("Sensor $sensorType at station $stationId marked as disconnected.")
+            sensorEventNotifier.notifySensorDown(stationId, sensorType)
+        }
+    }
+
+    @Synchronized
+    fun processSensorData(stationId: String, sensorType: SensorType, newValues: Map<String, Double>) {
+        val topic = "${sensorType.topic}/$stationId"
+        val sensorInfo = allSensors.computeIfAbsent(topic) {
+            SensorInfo(stationId, sensorType.name, "connected", System.currentTimeMillis())
+        }
+
+        val lastValues = sensorInfo.lastValues
+        val sensorThresholds = thresholdsConfig.thresholds[sensorType.name]
+
+        newValues.forEach { (field, currentValue) ->
+            val previousValue = lastValues[field]
+            val threshold = sensorThresholds?.get(field)
+
+            if (previousValue != null && threshold != null) {
+                if (abs(currentValue - previousValue) > threshold) {
+                    logger.info("Fluctuation detected for sensor $sensorType at station $stationId, field '$field'. From $previousValue to $currentValue")
+                    sensorEventNotifier.notifySensorFluctuation(stationId, sensorType, field, previousValue, currentValue)
+                }
+            }
+        }
+
+        sensorInfo.lastValues = sensorInfo.lastValues + newValues
+        sensorInfo.lastSeen = System.currentTimeMillis()
+        sensorInfo.status = "connected"
     }
 }

@@ -16,9 +16,15 @@ class PorePressureListener(
     override fun onReceive(station: String, payload: String) {
         val data = Gson().fromJson(payload, PorePressureDataEntity::class.java)
         porePressureDataRepository.save(station, data.toDomain())
+        val newValues = mapOf(
+            "pressure" to data.pressure,
+            "temperature" to data.temperature,
+            "frequency" to data.frequency
+        )
+        sensorService.processSensorData(station, SensorType.PORE_PRESSURE, newValues)
     }
 
     override fun onConnectionLost(station: String) {
-        sensorService.removeSensor(station, SensorType.PORE_PRESSURE)
+        sensorService.markSensorAsDisconnected(station, SensorType.PORE_PRESSURE)
     }
 }

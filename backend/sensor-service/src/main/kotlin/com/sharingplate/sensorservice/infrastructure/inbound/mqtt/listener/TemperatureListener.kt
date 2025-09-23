@@ -16,9 +16,14 @@ class TemperatureListener(
     override fun onReceive(station: String, payload: String) {
         val data = Gson().fromJson(payload, TemperatureDataEntity::class.java)
         temperatureDataRepository.save(station, data.toDomain())
+        val newValues = mapOf(
+            "temperature" to data.temperature,
+            "humidity" to data.humidity
+        )
+        sensorService.processSensorData(station, SensorType.TEMPERATURE, newValues)
     }
 
     override fun onConnectionLost(station: String) {
-        sensorService.removeSensor(station, SensorType.TEMPERATURE)
+        sensorService.markSensorAsDisconnected(station, SensorType.TEMPERATURE)
     }
 }
