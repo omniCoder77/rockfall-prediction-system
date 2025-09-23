@@ -41,18 +41,18 @@ Stores administrator and supervisor user information for authentication and auth
 
 ### 2. InfluxDB Database Schema
 
-InfluxDB is utilized for storing high-volume, time-series sensor data from various monitoring devices at the mining sites. Data is organized into measurements, each corresponding to a type of sensor data, with `station_id` as a tag for efficient querying.
+InfluxDB is utilized for storing high-volume, time-series sensor data from various monitoring devices at the mining sites. Data is organized into measurements, each corresponding to a type of sensor data, with `station` as a tag for efficient querying.
 
 #### 2.1. Measurements and Fields
 
-All timestamps in InfluxDB are stored with millisecond precision (`WritePrecision.MS`).
+All timestamps in InfluxDB are written with **nanosecond precision** (`WritePrecision.NS`).
 
 ##### 2.1.1. `displacement` Measurement
 
 Records displacement and tilt data from sensors.
 
 *   **Tags:**
-    *   `station_id`: String (e.g., "STATION_1") - Identifies the station.
+    *   `station`: String (e.g., "station-01") - Identifies the station.
 *   **Fields:**
     *   `tilt_x`: Double - Tilt in the X-direction.
     *   `tilt_y`: Double - Tilt in the Y-direction.
@@ -63,7 +63,7 @@ Records displacement and tilt data from sensors.
 Records strain values from strain gauges.
 
 *   **Tags:**
-    *   `station_id`: String (e.g., "STATION_1") - Identifies the station.
+    *   `station`: String (e.g., "station-01") - Identifies the station.
 *   **Fields:**
     *   `strain_value`: Double - Measured strain value.
     *   `temperature`: Double - Temperature at the sensor location.
@@ -74,7 +74,7 @@ Records strain values from strain gauges.
 Records pore pressure data.
 
 *   **Tags:**
-    *   `station_id`: String (e.g., "STATION_1") - Identifies the station.
+    *   `station`: String (e.g., "station-01") - Identifies the station.
 *   **Fields:**
     *   `pressure`: Double - Measured pore pressure.
     *   `temperature`: Double - Temperature at the sensor location.
@@ -85,7 +85,7 @@ Records pore pressure data.
 Records rainfall data.
 
 *   **Tags:**
-    *   `station_id`: String (e.g., "STATION_1") - Identifies the station.
+    *   `station`: String (e.g., "station-01") - Identifies the station.
 *   **Fields:**
     *   `rainfall_increment`: Double - Incremental rainfall since the last measurement.
     *   `total_rainfall`: Double - Cumulative total rainfall.
@@ -95,11 +95,11 @@ Records rainfall data.
 Records vibration data (accelerometer readings).
 
 *   **Tags:**
-    *   `station_id`: String (e.g., "STATION_1") - Identifies the station.
+    *   `station`: String (e.g., "station-01") - Identifies the station.
 *   **Fields:**
-    *   `accel_x`: Double - Acceleration in the X-direction.
-    *   `accel_y`: Double - Acceleration in the Y-direction.
-    *   `accel_z`: Double - Acceleration in the Z-direction.
+    *   `acc_x`: Double - Acceleration in the X-direction.
+    *   `acc_y`: Double - Acceleration in the Y-direction.
+    *   `acc_z`: Double - Acceleration in the Z-direction.
     *   `magnitude`: Double - Magnitude of vibration.
 
 ##### 2.1.6. `temperature` Measurement
@@ -107,19 +107,19 @@ Records vibration data (accelerometer readings).
 Records ambient temperature and humidity.
 
 *   **Tags:**
-    *   `station_id`: String (e.g., "STATION_1") - Identifies the station.
+    *   `station`: String (e.g., "station-01") - Identifies the station.
 *   **Fields:**
     *   `temperature`: Double - Ambient temperature.
     *   `humidity`: Double - Relative humidity.
 
-##### 2.1.7. `drone_image` Measurement
+##### 2.1.7. `drone_image_data` Measurement
 
-Records metadata about drone imagery. The actual image data is typically stored in a blob storage (e.g., S3), and only metadata/references are stored here.
+Records metadata and image data from drones.
 
 *   **Tags:**
-    *   `drone_id`: String (e.g., "DRONE_1") - Identifies the drone.
+    *   `station`: String (e.g., "station-01") - Identifies the station associated with the drone's flight.
 *   **Fields:**
-    *   `gps_latitude`: Double - GPS latitude where the image was captured.
-    *   `gps_longitude`: Double - GPS longitude where the image was captured.
+    *   `image_data`: String - The raw image data, converted to a string.
+    *   `lat`: Double - GPS latitude where the image was captured.
+    *   `long`: Double - GPS longitude where the image was captured.
     *   `altitude`: Double - Altitude at which the image was captured.
-    *   `image_size`: Long - Size of the image data in bytes.
