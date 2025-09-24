@@ -11,4 +11,5 @@ interface StationRepository {
     fun addStation(station: Station): Mono<Station>
     fun updateStation(station: Station): Mono<Station>
     fun deleteStation(stationId: UUID): Mono<Void>
+    fun findStationsByRiskLevelBetween(minRiskLevel: Double, maxRiskLevel: Double): Flux<Station>
 }

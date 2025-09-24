@@ -42,4 +42,12 @@ class StationService(private val stationRepository: StationRepository) {
         return stationRepository.deleteStation(stationId)
             .doOnError { e -> logger.error("Service error deleting station with ID {}: {}", stationId, e.message, e) }
     }
+
+
+    fun getStationIdsByRiskLevelBetween(minRiskLevel: Double, maxRiskLevel: Double): Flux<UUID> {
+        logger.info("Request to get station IDs with risk level between {} and {}", minRiskLevel, maxRiskLevel)
+        return stationRepository.findStationsByRiskLevelBetween(minRiskLevel, maxRiskLevel)
+            .map { it.stationId }
+            .doOnError { e -> logger.error("Service error getting station IDs by risk level: {}", e.message, e) }
+    }
 }

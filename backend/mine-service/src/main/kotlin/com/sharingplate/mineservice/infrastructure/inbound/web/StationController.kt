@@ -17,11 +17,14 @@ class StationController(private val stationService: StationService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    @GetMapping
-    fun getAllStations(): Flux<Station> {
-        logger.info("Received request to fetch all stations.")
-        return stationService.getAllStations()
-            .doOnError { e -> logger.error("API error fetching all stations: {}", e.message, e) }
+    @GetMapping("/stations-by-risk")
+    fun getStationIdsByRiskLevel(
+        @RequestParam minRiskLevel: Double,
+        @RequestParam maxRiskLevel: Double
+    ): Flux<UUID> {
+        logger.info("Received request for station IDs with risk level between {} and {}", minRiskLevel, maxRiskLevel)
+        return stationService.getStationIdsByRiskLevelBetween(minRiskLevel, maxRiskLevel)
+            .doOnError { e -> logger.error("API error fetching station IDs by risk range: {}", e.message, e) }
     }
 
     @GetMapping("/{stationId}")
@@ -57,8 +60,8 @@ class StationController(private val stationService: StationService) {
     fun deleteStation(@PathVariable stationId: UUID): Mono<ResponseEntity<Boolean>> {
         logger.info("Received request to delete station with ID: {}", stationId)
         return stationService.deleteStation(stationId).then(Mono.just(ResponseEntity.ok(true))).onErrorResume { e ->
-                logger.error("API error deleting station with ID {}: {}", stationId, e.message, e)
-                Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build())
-            }
+            logger.error("API error deleting station with ID {}: {}", stationId, e.message, e)
+            Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build())
+        }
     }
 }
