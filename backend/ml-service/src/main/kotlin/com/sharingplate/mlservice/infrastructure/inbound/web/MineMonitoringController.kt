@@ -21,15 +21,8 @@ class MineMonitoringController(
     fun predictRisk(@RequestBody data: MLPredictionRequest): ResponseEntity<MLPredictionResponse> {
         return try {
             val riskLevel = mlModelService.predictRisk(data)
-
-            val response = MLPredictionResponse(
-                station_id = data.stationId,
-                timestamp = data.timestamp,
-                risk_level = riskLevel
-            )
-
             logger.info("Risk prediction completed for station: ${data.stationId}, risk: $riskLevel")
-            ResponseEntity.ok(response)
+            ResponseEntity.ok(riskLevel)
         } catch (e: Exception) {
             logger.error("Error predicting risk for station ${data.stationId}", e)
             ResponseEntity.internalServerError().build()

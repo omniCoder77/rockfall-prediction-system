@@ -1,27 +1,39 @@
 package com.sharingplate.mlservice.infrastructure.outbound.ml.payload
 
+import com.sharingplate.mlservice.infrastructure.inbound.kafka.dto.SensorFluctuationEvent
+
 data class MLPredictionRequest(
-    val timestamp: Double,
+    val timestamp: Long,
     val stationId: String,
-    val zone: String,
     val lat: Double,
     val lon: Double,
     val elevationM: Double,
-    val rainfallMm: Double,
-    val dispIncMm: Double,
+    val totalRainfallMm: Double,
+    val dispIncMm_x: Double,
+    val dispIncMm_y: Double,
     val strainIncMicro: Double,
     val poreKpa: Double,
     val vibration: Double,
-    val blastFlag: Int,
-    val sensorStatus: String,
-    val cumulativeDispMm: Double,
-    val dispRate6h: Double,
-    val strain6h: Double,
-    val pore6h: Double,
-    val vib6h: Double,
-    val riskScoreRaw: Double,
-    val riskScoreNorm: Double,
-    val riskLabel: String,
-    val eventProb: Double,
-    val rockfallEvent: Int
-)
+    val sensorType: String,
+    val field: String,
+    val previousValue: Double,
+    val currentValue: Double
+) {
+    constructor(fluctuationEvent: SensorFluctuationEvent) : this(
+        timestamp = fluctuationEvent.timestamp,
+        stationId = fluctuationEvent.stationId,
+        lat = fluctuationEvent.lat,
+        lon = fluctuationEvent.lon,
+        elevationM = fluctuationEvent.elevationM,
+        totalRainfallMm = fluctuationEvent.totalRainfallMm,
+        dispIncMm_x = fluctuationEvent.dispIncMm_x,
+        dispIncMm_y = fluctuationEvent.dispIncMm_y,
+        strainIncMicro = fluctuationEvent.strainIncMicro,
+        poreKpa = fluctuationEvent.poreKpa,
+        vibration = fluctuationEvent.vibration,
+        sensorType = fluctuationEvent.sensorType,
+        field = fluctuationEvent.field,
+        previousValue = fluctuationEvent.previousValue,
+        currentValue = fluctuationEvent.currentValue
+    )
+}

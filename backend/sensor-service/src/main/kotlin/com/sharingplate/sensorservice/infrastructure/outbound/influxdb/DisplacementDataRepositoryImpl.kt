@@ -12,20 +12,14 @@ import java.time.Instant
 class DisplacementDataRepositoryImpl(private val influxDBInitializer: InfluxDBInitializer) :
     DisplacementDataRepository {
     override fun save(data: DisplacementData, station: String) {
-        val point = Point.measurement("displacement")
-            .addTag("station", station)
-            .addField("tilt_x", data.tiltX)
-            .addField("tilt_y", data.tiltY)
-            .addField("temperature", data.temperature)
+        val point = Point.measurement("displacement").addTag("station", station).addField("tilt_x", data.tiltX)
+            .addField("tilt_y", data.tiltY).addField("temperature", data.temperature)
             .time(Instant.now(), WritePrecision.NS)
         influxDBInitializer.influxDbWriter.writePoint(point)
     }
 
     override fun readByStation(
-        start: String,
-        end: String,
-        station: String?,
-        windowLengthInSeconds: Int
+        start: String, end: String, station: String?, windowLengthInSeconds: Int
     ): List<DisplacementData> {
         val stationFilter = if (station != null) """|> filter(fn: (r) => r["station"] == "$station")""" else ""
         val fluxQuery = """

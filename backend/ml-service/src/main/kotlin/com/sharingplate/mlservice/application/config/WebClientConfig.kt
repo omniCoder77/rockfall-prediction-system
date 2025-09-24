@@ -1,4 +1,4 @@
-package com.sharingplate.mlservice.config
+package com.sharingplate.mlservice.application.config
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean

@@ -1,5 +1,3 @@
-package com.sharingplate.sensorservice.application.config
-
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.context.annotation.Bean
@@ -12,7 +10,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer
 @Configuration
 class KakfaConfiguration {
     @Bean
-    fun producerFactory(): ProducerFactory<String, String> {
+    fun producerFactory(): ProducerFactory<String, Any> {
         val config: MutableMap<String, Any?> = HashMap()
 
         config[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = "127.0.0.1:9092"
@@ -22,9 +20,8 @@ class KakfaConfiguration {
         return DefaultKafkaProducerFactory(config)
     }
 
-
     @Bean
-    fun kafkaTemplate(): KafkaTemplate<String, String> {
+    fun kafkaTemplate(): KafkaTemplate<String, Any> {
         return KafkaTemplate(producerFactory())
     }
 }

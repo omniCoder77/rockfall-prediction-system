@@ -1,6 +1,5 @@
 package com.sharingplate.sensorservice.infrastructure.inbound.mqtt
 
-import com.google.gson.Gson
 import com.sharingplate.sensorservice.application.config.SensorThresholdsConfig
 import com.sharingplate.sensorservice.application.service.SensorEventNotifier
 import com.sharingplate.sensorservice.domain.contants.SensorType
@@ -26,7 +25,6 @@ class SensorService(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     private lateinit var mqttClient: MqttClient
-    private val gson = Gson()
     private val brokerUrl = "tcp://localhost:1883"
     private val clientId = "RockfallPredictionClient_${System.currentTimeMillis()}"
 
@@ -204,7 +202,7 @@ class SensorService(
             }
         }
 
-        sensorInfo.lastValues = sensorInfo.lastValues + newValues
+        sensorInfo.lastValues += newValues
         sensorInfo.lastSeen = System.currentTimeMillis()
         sensorInfo.status = "connected"
     }
