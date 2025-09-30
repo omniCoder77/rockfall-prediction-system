@@ -1,0 +1,82 @@
+/* Map Container */
+.map-container {
+  position: relative;
+  margin: 20px;
+}
+
+.map-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Mine Map */
+.mine-map {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 60%; /* maintains aspect ratio */
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.map-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Stations */
+.station {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #006d5b;
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect: scale + glow */
+.station:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 12px rgba(0, 109, 91, 0.8);
+}
+
+/* Example responsive positions (percent of container) */
+.station1 { top: 15%; left: 10%; }
+.station2 { top: 25%; left: 35%; }
+.station3 { top: 40%; left: 20%; }
+.station4 { top: 55%; left: 50%; }
+.station5 { top: 70%; left: 30%; }
+.station6 { top: 60%; left: 65%; }
+.station7 { top: 20%; left: 70%; }
+.station8 { top: 35%; left: 80%; }
+.station9 { top: 50%; left: 15%; }
+.station10 { top: 80%; left: 55%; }
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .station {
+    font-size: 0.75rem;
+    padding: 5px 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .station {
+    font-size: 0.7rem;
+    padding: 4px 6px;
+  }
+}

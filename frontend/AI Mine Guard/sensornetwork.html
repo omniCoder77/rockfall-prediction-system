@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Network</title>
+    <link rel="stylesheet" href="updated.css">
+    <link rel="stylesheet" href="sensornetwork.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>    <div class="app">
+        <div class="topbar">
+            <div class="topbar-center">
+                <h1>Rockfall Risk Predictor</h1>
+            </div>
+            <div class="topbar-right">
+                <div class="notifications">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <span class="time" id="current-time">12:18 PM</span>
+            </div>
+        </div>
+
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-avatar">DU</div>
+                <div class="brand-text">
+                    <p class="brand-name">UserName</p>
+                    <p class="brand-role">Admin</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active">
+                            <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
+                            <span class="nav-text">Overview</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item nav-with-submenu">
+                        <button class="nav-link nav-toggle" aria-expanded="false">
+                            <span class="nav-icon"><i class="fa-solid fa-server"></i></span>
+                            <span class="nav-text">Stations</span>
+                            <span class="nav-caret"><i class="fa-solid fa-chevron-down"></i></span>
+                        </button>
+
+                        <ul class="nav-submenu">
+                            <li><a href="station1.html" target="_blank" class="submenu-link">Station 1</a></li>
+                            <li><a href="station2.html" target="_blank" class="submenu-link">Station 2</a></li>
+                            <li><a href="#station3.html" target="_blank" class="submenu-link">Station 3</a></li>
+                            <li><a href="station4.html" target="_blank" class="submenu-link">Station 4</a></li>
+                            <li><a href="station5.html" target="_blank"class="submenu-link">Station 5</a></li>
+                            <li><a href="station6.html" target="_blank" class="submenu-link">Station 6</a></li>
+                            <li><a href="station7.html" target="_blank" class="submenu-link">Station 7</a></li>
+                            <li><a href="station8.html" target="_blank" class="submenu-link">Station 8</a></li>
+                            <li><a href="station9.html" target="_blank" class="submenu-link">Station 9</a></li>
+                            <li><a href="station10.html" target="_blank"class="submenu-link">Station 10</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="aioverview.html" target="_blank" class="nav-link">
+                            <span class="nav-icon"><i class="fa-solid fa-robot"></i></span>
+                            <span class="nav-text">AI Overview</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="alertmanagement" target="_blank" class="nav-link">
+                            <span class="nav-icon"><i class="fa-solid fa-bell"></i></span>
+                            <span class="nav-text">Alert Management</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="sensornetwork.html" class="nav-link">
+                            <span class="nav-icon"><i class="fa-solid fa-network-wired"></i></span>
+                            <span class="nav-text">Sensor Network</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="minemap.html"  target ="_blank"class ="nav-link">
+                            <span class="nav-icon"><i class="fa-solid fa-map-location-dot"></i></span>
+                            <span class="nav-text">Mine Map</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p>v2.1.0 • Secure Connection</p>
+            </div>
+        </aside>
+    
+        <main class="main">
+            <header class="top-header">
+                <div class="header-left">
+                    <div class="header-logo">RG</div>
+                    <div class="project-title">AI-Based Rockfall Prediction and Alert System</div>
+                </div>
+                <div class="header-right">
+  <div class="greeting">
+    <span class="typing">Welcome, User — good day.</span>
+  </div>
+</div>
+
+            </header>
+    
+<div class="sensor-grid">
+
+  <!-- Card 1 -->
+  <div class="sensor-card active">
+    <div class="card-header">
+      <i class="fa-solid fa-mountain"></i>
+      <span>Tiltmeter Array</span>
+      <span class="status active">active</span>
+    </div>
+    <div class="card-sub">Sector 7 - North Slope</div>
+    <div class="card-values">
+      <span>Current Value <b>2.3°</b></span>
+      <span>Threshold <b>5.0°</b></span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress" style="width:46%"></div>
+    </div>
+    <div class="card-footer">
+      <span>46% of threshold</span>
+      <span>2 min ago</span>
+    </div>
+    <div class="card-info">Measures ground inclination and slope movement</div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="sensor-card warning">
+    <div class="card-header">
+      <i class="fa-solid fa-water"></i>
+      <span>Piezometer Network</span>
+      <span class="status warning">warning</span>
+    </div>
+    <div class="card-sub">Sector 5 - Groundwater</div>
+    <div class="card-values">
+      <span>Current Value <b>15.2 m</b></span>
+      <span>Threshold <b>18.0 m</b></span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress" style="width:84%"></div>
+    </div>
+    <div class="card-footer">
+      <span>84% of threshold</span>
+      <span>1 min ago</span>
+    </div>
+    <div class="card-info">Monitors groundwater pressure and levels</div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="sensor-card active">
+    <div class="card-header">
+      <i class="fa-solid fa-wave-square"></i>
+      <span>Vibration Sensors</span>
+      <span class="status active">active</span>
+    </div>
+    <div class="card-sub">Sector 3 - Blast Zone</div>
+    <div class="card-values">
+      <span>Current Value <b>0.8 mm/s</b></span>
+      <span>Threshold <b>2.0 mm/s</b></span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress" style="width:40%"></div>
+    </div>
+    <div class="card-footer">
+      <span>40% of threshold</span>
+      <span>30 sec ago</span>
+    </div>
+    <div class="card-info">Detects ground vibrations from blasting and movement</div>
+  </div>
+
+  <!-- Card 4 -->
+  <div class="sensor-card critical">
+    <div class="card-header">
+      <i class="fa-solid fa-bolt"></i>
+      <span>Crackmeter System</span>
+      <span class="status critical">critical</span>
+    </div>
+    <div class="card-sub">Sector 7 - Critical Zone</div>
+    <div class="card-values">
+      <span>Current Value <b>4.2 mm</b></span>
+      <span>Threshold <b>3.0 mm</b></span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress" style="width:140%"></div>
+    </div>
+    <div class="card-footer">
+      <span>140% of threshold</span>
+      <span>1 min ago</span>
+    </div>
+    <div class="card-info">Measures crack width and rock displacement</div>
+    <div class="critical-alert">⚠️ Threshold exceeded — Immediate attention required</div>
+  </div>
+
+  <!-- Card 5 -->
+  <div class="sensor-card active">
+    <div class="card-header">
+      <i class="fa-solid fa-cloud-sun-rain"></i>
+      <span>Weather Station</span>
+      <span class="status active">active</span>
+    </div>
+    <div class="card-sub">Central Platform</div>
+    <div class="card-values">
+      <span>Current Value <b>12°C, 65%</b></span>
+      <span>Threshold <b>Normal</b></span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress" style="width:65%"></div>
+    </div>
+    <div class="card-footer">
+      <span>65% of threshold</span>
+      <span>5 min ago</span>
+    </div>
+    <div class="card-info">Temperature, humidity, wind speed, precipitation</div>
+  </div>
+
+  <!-- Card 6 -->
+  <div class="sensor-card active">
+    <div class="card-header">
+      <i class="fa-solid fa-satellite-dish"></i>
+      <span>GNSS Network</span>
+      <span class="status active">active</span>
+    </div>
+    <div class="card-sub">Mine Perimeter</div>
+    <div class="card-values">
+      <span>Current Value <b>±2.1 cm</b></span>
+      <span>Threshold <b>±5.0 cm</b></span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress" style="width:42%"></div>
+    </div>
+    <div class="card-footer">
+      <span>42% of threshold</span>
+      <span>1 min ago</span>
+    </div>
+    <div class="card-info">High-precision GPS for ground movement tracking</div>
+  </div>
+
+</div>
+</div>
+</main>
+</body>
+</html>

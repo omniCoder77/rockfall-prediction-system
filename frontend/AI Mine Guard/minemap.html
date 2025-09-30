@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mine Map</title>
+  <link rel="stylesheet" href="updated.css"> 
+  <link rel="stylesheet" href="minemap.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+     <div class="app">
+        <div class="topbar">
+            <div class="topbar-center">
+                <h1>Rockfall Risk Predictor</h1>
+            </div>
+            <div class="topbar-right">
+                <div class="notifications">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <span class="time" id="current-time">12:18 PM</span>
+            </div>
+        </div>
+
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-avatar">DU</div>
+                <div class="brand-text">
+                    <p class="brand-name">UserName</p>
+                    <p class="brand-role">Admin</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active">
+                            <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
+                            <span class="nav-text">Overview</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item nav-with-submenu">
+                        <button class="nav-link nav-toggle" aria-expanded="false">
+                            <span class="nav-icon"><i class="fa-solid fa-server"></i></span>
+                            <span class="nav-text">Stations</span>
+                            <span class="nav-caret"><i class="fa-solid fa-chevron-down"></i></span>
+                        </button>
+
+                        <ul class="nav-submenu">
+                            <li><a href="station1.html" target="_blank" class="submenu-link">Station 1</a></li>
+                            <li><a href="station2.html" target="_blank" class="submenu-link">Station 2</a></li>
+                            <li><a href="#station3.html" target="_blank" class="submenu-link">Station 3</a></li>
+                            <li><a href="station4.html" target="_blank" class="submenu-link">Station 4</a></li>
+                            <li><a href="station5.html" target="_blank"class="submenu-link">Station 5</a></li>
+                            <li><a href="station6.html" target="_blank" class="submenu-link">Station 6</a></li>
+                            <li><a href="station7.html" target="_blank" class="submenu-link">Station 7</a></li>
+                            <li><a href="station8.html" target="_blank" class="submenu-link">Station 8</a></li>
+                            <li><a href="station9.html" target="_blank" class="submenu-link">Station 9</a></li>
+                            <li><a href="station10.html" target="_blank"class="submenu-link">Station 10</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="aioverview.html" target="_blank" class="nav-link">
+                            <span class="nav-icon"><i class="fa-solid fa-robot"></i></span>
+                            <span class="nav-text">AI Overview</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="alertmanagement" target="_blank" class="nav-link">
+                            <span class="nav-icon"><i class="fa-solid fa-bell"></i></span>
+                            <span class="nav-text">Alert Management</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="sensornetwork.html" class="nav-link">
+                            <span class="nav-icon"><i class="fa-solid fa-network-wired"></i></span>
+                            <span class="nav-text">Sensor Network</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="minemap.html"  target ="_blank"class ="nav-link">
+                            <span class="nav-icon"><i class="fa-solid fa-map-location-dot"></i></span>
+                            <span class="nav-text">Mine Map</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p>v2.1.0 • Secure Connection</p>
+            </div>
+        </aside>
+    
+        <main class="main">
+            <header class="top-header">
+                <div class="header-left">
+                    <div class="header-logo">RG</div>
+                    <div class="project-title">AI-Based Rockfall Prediction and Alert System</div>
+                </div>
+                <div class="header-right">
+  <div class="greeting">
+    <span class="typing">Welcome, User — good day.</span>
+  </div>
+</div>
+
+            </header>
+
+
+  <!-- Main Content -->
+  <main class="content">
+    <!-- Placeholder Rectangle -->
+    <div class="map-header-card">
+      <h2>KGF Mine Area</h2>
+      <div class="circle-map">
+      <a href="station1.html" class="station station1">Station 1</a>
+      <a href="station2.html" class="station station2">Station 2</a>
+      <a href="station3.html" class="station station3">Station 3</a>
+      <a href="station4.html" class="station station4">Station 4</a>
+    </div>
+    </div>
+
+    <!-- Circle Map -->
+    
+  </main>
+  <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const toggles = document.querySelectorAll(".nav-toggle");
+
+    toggles.forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        const parent = toggle.closest(".nav-item");
+        const submenu = parent.querySelector(".nav-submenu");
+        const isOpen = parent.classList.contains("open");
+
+        // Close all open menus first
+        document.querySelectorAll(".nav-item.open").forEach((item) => {
+          item.classList.remove("open");
+          item.querySelector(".nav-toggle").setAttribute("aria-expanded", "false");
+        });
+
+        // Toggle current one
+        if (!isOpen) {
+          parent.classList.add("open");
+          toggle.setAttribute("aria-expanded", "true");
+        } else {
+          parent.classList.remove("open");
+          toggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    });
+  });
+
+        function updateTime() {
+            const now = new Date();
+            const options = { hour: '2-digit', minute: '2-digit', hour12: true };
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US', options);
+        }
+        
+        setInterval(updateTime, 60000);
+        updateTime();
+    </script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Overview - Rockfall Prediction System</title>
+  <link rel="stylesheet" href="updated.css">
+  <link rel="stylesheet" href="aioverview.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="dashboard-page" class="page active">
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="app">
+        <div class="topbar">
+            <div class="topbar-center">
+                <h1>AI MINE-GUARD</h1>
+            </div>
+            <div class="topbar-right">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="notifications">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <span class="time" id="current-time">12:18 PM</span>
+                <button class="logout-btn" id="logoutButton">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-avatar" id="userAvatar">
+                    <span id="avatarInitials">A</span>
+                    <div class="avatar-edit">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                <div class="brand-text">
+                    <p class="brand-name">
+                        <span id="name">Admin User</span>
+                        <span class="name-edit" id="editname">
+                            <i class="fas fa-edit"></i>
+                        </span>
+                    </p>
+                    <p class="brand-role" id="userRole">Admin</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="updated.html" class="nav-link" data-page="dashboard">
+                            <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
+                            <span class="nav-text">Overview</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item nav-with-submenu">
+                        <button class="nav-link nav-toggle" aria-expanded="false">
+                            <span class="nav-icon"><i class="fa-solid fa-server"></i></span>
+                            <span class="nav-text">Stations</span>
+                            <span class="nav-caret"><i class="fa-solid fa-chevron-down"></i></span>
+                        </button>
+
+                        <ul class="nav-submenu">
+                            <li><a href="station1.html" class="submenu-link" data-page="station1">Station 1</a></li>
+                            <li><a href="station2.html" class="submenu-link" data-page="station2">Station 2</a></li>
+                            <li><a href="station3.html" class="submenu-link" data-page="station3">Station 3</a></li>
+                            <li><a href="station4.html" class="submenu-link" data-page="station4">Station 4</a></li>
+                            <li><a href="station5.html" class="submenu-link" data-page="station5">Station 5</a></li>
+                            <li><a href="station6.html" class="submenu-link" data-page="station6">Station 6</a></li>
+                            <li><a href="station7.html" class="submenu-link" data-page="station7">Station 7</a></li>
+                            <li><a href="station8.html" class="submenu-link" data-page="station8">Station 8</a></li>
+                            <li><a href="station9.html" class="submenu-link" data-page="station9">Station 9</a></li>
+                            <li><a href="station10.html" class="submenu-link" data-page="station10">Station 10</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="aioverview.html" class="nav-link active" data-page="ai-overview">
+                            <span class="nav-icon"><i class="fa-solid fa-robot"></i></span>
+                            <span class="nav-text">AI Overview</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="alert-management">
+                            <span class="nav-icon"><i class="fa-solid fa-bell"></i></span>
+                            <span class="nav-text">Alert Management</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="sensor-network">
+                            <span class="nav-icon"><i class="fa-solid fa-network-wired"></i></span>
+                            <span class="nav-text">Sensor Network</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="mine-map">
+                            <span class="nav-icon"><i class="fa-solid fa-map-location-dot"></i></span>
+                            <span class="nav-text">Mine Map</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p>CAFFEINE CODERS</p>
+            </div>
+        </aside>
+    
+        <main class="main">
+            <header class="top-header">
+                <div class="header-left">
+                    <div class="header-logo">MG</div>
+                    <div class="project-title">AI-Based Rockfall Prediction and Alert System</div>
+                </div>
+                <div class="header-right">
+                    <div class="welcome-container">
+                        <div class="welcome-icon">
+                            <i class="fas fa-hand-wave"></i>
+                        </div>
+                        <div class="welcome-text">
+                            Welcome back, <span class="welcome-highlight" id="welcomeName">Admin</span>! Ready to monitor today's operations?
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Severity Cards - Exact same as homepage -->
+            <div class="severity-cards">
+                <div class="severity-card warning" data-risk="warning">
+                    <div class="card-header">
+                        <span>Stations at Warning level</span>
+                        <span class="icon">⚠</span>
+                    </div>
+                    <div class="card-main">75-100%</div>
+                    <div class="card-sub">Critical risk level</div>
+                    <div class="station-dropdown" id="warning-stations">
+                        <div class="station-dropdown-item">
+                            <i class="fas fa-map-marker-alt" style="color: var(--warning-color)"></i>
+                            <span>Station 2 - 85%</span>
+                        </div>
+                        <div class="station-dropdown-item">
+                            <i class="fas fa-map-marker-alt" style="color: var(--warning-color)"></i>
+                            <span>Station 7 - 90%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="severity-card high" data-risk="high">
+                    <div class="card-header">
+                        <span>Stations at High Risk</span>
+                        <span class="icon">🔥</span>
+                    </div>
+                    <div class="card-main">50-75%</div>
+                    <div class="card-sub">Elevated risk level</div>
+                    <div class="station-dropdown" id="high-stations">
+                        <div class="station-dropdown-item">
+                            <i class="fas fa-map-marker-alt" style="color: var(--high-color)"></i>
+                            <span>Station 1 - 65%</span>
+                        </div>
+                        <div class="station-dropdown-item">
+                            <i class="fas fa-map-marker-alt" style="color: var(--high-color)"></i>
+                            <span>Station 3 - 70%</span>
+                        </div>
+                        <div class="station-dropdown-item">
+                            <i class="fas fa-map-marker-alt" style="color: var(--high-color)"></i>
+                            <span>Station 6 - 60%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="severity-card medium" data-risk="medium">
+                    <div class="card-header">
+                        <span>Stations at Medium Risk</span>
+                        <span class="icon">📉</span>
+                    </div>
+                    <div class="card-main">20-50%</div>
+                    <div class="card-sub">Moderate risk level</div>
+                    <div class="station-dropdown" id="medium-stations">
+                        <div class="station-dropdown-item">
+                            <i class="fas fa-map-marker-alt" style="color: var(--medium-color)"></i>
+                            <span>Station 4 - 45%</span>
+                        </div>
+                        <div class="station-dropdown-item">
+                            <i class="fas fa-map-marker-alt" style="color: var(--medium-color)"></i>
+                            <span>Station 8 - 40%</span>
+                        </div>
+                        <div class="station-dropdown-item">
+                            <i class="fas fa-map-marker-alt" style="color: var(--medium-color)"></i>
+                            <span>Station 9 - 35%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="severity-card low" data-risk="low">
+                    <div class="card-header">
+                        <span>Stations at Low Risk</span>
+                        <span class="icon">✅</span>
+                    </div>
+                    <div class="card-main">0-20%</div>
+                    <div class="card-sub">Normal risk level</div>
+                    <div class="station-dropdown" id="low-stations">
+                        <div class="station-dropdown-item">
+                            <i class="fas fa-map-marker-alt" style="color: var(--low-color)"></i>
+                            <span>Station 5 - 15%</span>
+                        </div>
+                        <div class="station-dropdown-item">
+                            <i class="fas fa-map-marker-alt" style="color: var(--low-color)"></i>
+                            <span>Station 10 - 5%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Overview Specific Content -->
+            <section class="card accuracy">
+                <h2>AI Model Performance</h2>
+                <img src="https://www.researchgate.net/publication/358345589/figure/fig4/AS:1119606580215808@1643946418589/Model-accuracy-graph-on-training-and-validation-sets.png" alt="AI Model Accuracy Graph">
+            </section>
+
+            <section class="card prediction">
+                <h2>AI Prediction Tools</h2>
+                <div class="prediction-buttons">
+                    <div class="prediction-card upload">
+                        <button>Upload Geological Data</button>
+                    </div>
+                    <div class="prediction-card see">
+                        <button>Run Risk Analysis</button>
+                    </div>
+                    <div class="prediction-card export">
+                        <button>Export Predictions</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Recommendations Card -->
+            <div class="recommendations-card">
+                <div class="recommendations-header">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>AI Safety Recommendations</span>
+                </div>
+                <p class="recommendations-subtitle">
+                    Automated safety recommendations based on current analysis
+                </p>
+
+                <!-- Tabs -->
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="immediate">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Immediate Actions
+                    </button>
+                    <button class="tab-btn" data-tab="preventive">
+                        <i class="fa-solid fa-clipboard-check"></i> Preventive Measures
+                    </button>
+                    <button class="tab-btn" data-tab="maintenance">
+                        <i class="fa-solid fa-tools"></i> System Maintenance
+                    </button>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <div id="immediate" class="tab-panel active">
+                        <ul>
+                            <li>Increase monitoring frequency in Sector C</li>
+                            <li>Deploy additional sensors near Tilt-001</li>
+                            <li>Restrict heavy equipment in high-risk zones</li>
+                            <li>Activate emergency protocols for Station 5</li>
+                        </ul>
+                    </div>
+
+                    <div id="preventive" class="tab-panel">
+                        <ul>
+                            <li>Schedule geological survey for next week</li>
+                            <li>Review evacuation routes in affected areas</li>
+                            <li>Prepare emergency response teams</li>
+                            <li>Update risk assessment models with new data</li>
+                        </ul>
+                    </div>
+
+                    <div id="maintenance" class="tab-panel">
+                        <ul>
+                            <li>Update AI model with latest seismic data</li>
+                            <li>Calibration due for sensors 7, 12, and 15</li>
+                            <li>Backup system data to secure servers</li>
+                            <li>Performance optimization scheduled</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="app-footer">
+                <small>Prototype — Ministry of Mines / NIRM — Disaster Management Theme</small>
+            </footer>
+        </main>
+    </div>
+</div>
+
+<!-- Modals (same as homepage) -->
+<div class="modal" id="avatarModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Update Profile Picture</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Select a new profile picture:</p>
+            <input type="file" id="avatarUpload" accept="image/*" style="margin: 1rem 0;">
+            <div id="avatarPreview" style="width: 150px; height: 150px; border-radius: 50%; background: #f0f0f0; margin: 1rem auto; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                <span id="previewInitials">A</span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary close-modal">Cancel</button>
+            <button class="btn btn-primary" id="saveAvatar">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="nameModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Change Name</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="input-group">
+                <label for="newname">New Name</label>
+                <input type="text" id="newname" placeholder="Enter new name">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary close-modal">Cancel</button>
+            <button class="btn btn-primary" id="savename">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Severity card hover functionality (same as homepage)
+    function setupSeverityCardHover() {
+        const severityCards = document.querySelectorAll('.severity-card');
+        
+        severityCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                // Close all other dropdowns first
+                document.querySelectorAll('.station-dropdown').forEach(dropdown => {
+                    dropdown.style.opacity = '0';
+                    dropdown.style.visibility = 'hidden';
+                    dropdown.style.transform = 'translateY(-10px)';
+                });
+                
+                // Show this card's dropdown
+                const dropdown = this.querySelector('.station-dropdown');
+                if (dropdown) {
+                    dropdown.style.opacity = '1';
+                    dropdown.style.visibility = 'visible';
+                    dropdown.style.transform = 'translateY(0)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                const dropdown = this.querySelector('.station-dropdown');
+                if (dropdown) {
+                    dropdown.style.opacity = '0';
+                    dropdown.style.visibility = 'hidden';
+                    dropdown.style.transform = 'translateY(-10px)';
+                }
+            });
+        });
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener("DOMContentLoaded", function() {
+        // Severity card hover
+        setupSeverityCardHover();
+        
+        // Tab functionality
+        document.querySelectorAll(".tab-btn").forEach((button) => {
+            button.addEventListener("click", () => {
+                const tab = button.getAttribute("data-tab");
+                
+                document.querySelectorAll(".tab-btn").forEach((btn) => btn.classList.remove("active"));
+                button.classList.add("active");
+                
+                document.querySelectorAll(".tab-panel").forEach((panel) => panel.classList.remove("active"));
+                document.getElementById(tab).classList.add("active");
+            });
+        });
+
+        // Sidebar toggle functionality
+        const toggles = document.querySelectorAll(".nav-toggle");
+        toggles.forEach((toggle) => {
+            toggle.addEventListener("click", () => {
+                const parent = toggle.closest(".nav-item");
+                const submenu = parent.querySelector(".nav-submenu");
+                const isOpen = parent.classList.contains("open");
+                
+                // Close all open menus first
+                document.querySelectorAll(".nav-item.open").forEach((item) => {
+                    item.classList.remove("open");
+                    item.querySelector(".nav-toggle").setAttribute("aria-expanded", "false");
+                });
+                
+                // Toggle current one
+                if (!isOpen) {
+                    parent.classList.add("open");
+                    toggle.setAttribute("aria-expanded", "true");
+                } else {
+                    parent.classList.remove("open");
+                    toggle.setAttribute("aria-expanded", "false");
+                }
+            });
+        });
+
+        // Time update
+        function updateTime() {
+            const now = new Date();
+            const options = { hour: '2-digit', minute: '2-digit', hour12: true };
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US', options);
+        }
+        
+        setInterval(updateTime, 60000);
+        updateTime();
+
+        // Menu toggle for mobile
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+    });
+</script>
+</body>
+</html>

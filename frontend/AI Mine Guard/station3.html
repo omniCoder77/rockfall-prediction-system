@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mine Dashboard</title>
+  <link rel="stylesheet" href="updated.css">
+  <link rel="stylesheet" href="station.css">
+  <script src="https://kit.fontawesome.com/2d3d86eada.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="app">
+            <div class="topbar">
+                <div class="topbar-center">
+                    <h1>AI Mineguard</h1>
+                </div>
+                <div class="topbar-right">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="notifications">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <span class="time" id="current-time">12:18 PM</span>
+                </div>
+            </div>
+
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-brand">
+                    <div class="brand-avatar" id="userAvatar">
+                        <span id="avatarInitials">A</span>
+                        <div class="avatar-edit">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <div class="brand-text">
+                        <p class="brand-name">
+                            <span id="userName">Admin User</span>
+                            <span class="username-edit" id="editUsername">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                        </p>
+                        <p class="brand-role" id="userRole">Admin</p>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active" data-page="dashboard">
+                                <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
+                                <span class="nav-text">Overview</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item nav-with-submenu">
+                            <button class="nav-link nav-toggle" aria-expanded="false">
+                                <span class="nav-icon"><i class="fa-solid fa-server"></i></span>
+                                <span class="nav-text">Stations</span>
+                                <span class="nav-caret"><i class="fa-solid fa-chevron-down"></i></span>
+                            </button>
+                            <ul class="nav-submenu">
+                                <li><a href="station1.html" class="submenu-link" data-page="station1">Station 1</a></li>
+                                <li><a href="station2.html" class="submenu-link" data-page="station2">Station 2</a></li>
+                                <li><a href="station3.html" class="submenu-link" data-page="station3">Station 3</a></li>
+                                <li><a href="station4.html" class="submenu-link" data-page="station4">Station 4</a></li>
+                                <li><a href="station5.html" class="submenu-link" data-page="station5">Station 5</a></li>
+                                <li><a href="station6.html" class="submenu-link" data-page="station6">Station 6</a></li>
+                                <li><a href="station7.html" class="submenu-link" data-page="station7">Station 7</a></li>
+                                <li><a href="station8.html" class="submenu-link" data-page="station8">Station 8</a></li>
+                                <li><a href="station9.html" class="submenu-link" data-page="station9">Station 9</a></li>
+                                <li><a href="station10.html" class="submenu-link" data-page="station10">Station 10</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="aioverview.html" class="nav-link" data-page="ai-overview">
+                                <span class="nav-icon"><i class="fa-solid fa-robot"></i></span>
+                                <span class="nav-text">AI Overview</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="alertmanagment.html" class="nav-link" data-page="alert-management">
+                                <span class="nav-icon"><i class="fa-solid fa-bell"></i></span>
+                                <span class="nav-text">Alert Management</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="sensornetwork.html" class="nav-link" data-page="sensor-network">
+                                <span class="nav-icon"><i class="fa-solid fa-network-wired"></i></span>
+                                <span class="nav-text">Sensor Network</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="minemap.html" class="nav-link" data-page="mine-map">
+                                <span class="nav-icon"><i class="fa-solid fa-map-location-dot"></i></span>
+                                <span class="nav-text">Mine Map</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <p>v2.1.0 • Secure Connection</p>
+                </div>
+            </aside>
+        
+            <main class="main">
+                <header class="top-header">
+                    <div class="header-left">
+                        <div class="header-logo">RG </div>
+                        <div class="project-title">AI-Based Rockfall Prediction and Alert System</div>
+                    </div>
+                    <div class="header-right">
+                        <div class="welcome-container">
+                            <div class="welcome-icon">
+                                <i class="fas fa-hand-wave"></i>
+                            </div>
+                            <div class="welcome-text">
+                                Welcome back, <span class="welcome-highlight" id="welcomeName">Admin</span>! Ready to monitor today's operations?
+                            </div>
+                        </div>
+                    </div>
+                </header>
+<!-- Station Section -->
+<section class="station-section">
+    <!-- Station Name -->
+    <h1 class="station-title">Station Name: Alpha Mine</h1>
+
+    <!-- Three Cards Row -->
+    <div class="station-cards-row">
+        <div class="station-card">
+            <span class="station-update">Sensors Working</span>
+            <p class="update-details">115 -/120</p>
+        </div>
+        <div class="station-card">
+            <span class="station-update">Sensor Alert</span>
+            <p class="update-details">Area of high Risk</p>
+        </div>
+        <div class="station-card">
+            <span class="station-update">Mining  Operation Status</span>
+            <p class="update-details">Currently Active</p>
+        </div>
+    </div>
+
+    <!-- Bottom Row: Risk Probability & Sensor Fluctuation -->
+    <div class="station-bottom-row">
+        <div class="bottom-card risk-card">
+            <h2>Risk Probability Graph</h2>
+            <div class="img-placeholder">
+            <img src="image\station3.png" alt="risk-probability-graph">
+            </div>
+        </div>
+        <div class="bottom-card fluctuation-card">
+            <h2>Sensor Fluctuation</h2>
+            <div class="img-placeholder">[ Fluctuation Image Here ]</div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

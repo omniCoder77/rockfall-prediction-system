@@ -1,0 +1,150 @@
+/* Align with global theme from styles.css */
+.content {
+  margin-left: 220px;
+  padding: 80px 20px 20px; /* space for fixed topbar */
+}
+
+
+
+/* --- Cards --- */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.accuracy {
+  text-align: center;
+}
+
+.prediction h2 {
+  margin-bottom: 15px;
+}
+
+.prediction-buttons {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.prediction-card {
+  flex: 1;
+  min-width: 200px;
+  text-align: center;
+  border-radius: 12px;
+  padding: 20px;
+  background: #f4f6f8;
+  transition: all 0.3s ease-in-out;
+}
+
+.prediction-card button {
+  background: #b71c1c;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+.prediction-card button:hover {
+  background: #8e0d0d;
+}
+
+.prediction-card:hover {
+  transform: scale(1.03);
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+.recommendations-card {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.recommendations-header {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.recommendations-header i {
+  color: #f59e0b;
+}
+
+.recommendations-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 15px;
+}
+
+/* Tabs */
+.tab-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.tab-btn:hover {
+  background: #e5e7eb;
+}
+
+.tab-btn.active {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+/* Panels */
+.tab-panel {
+  display: none;
+  font-size: 14px;
+  color: #374151;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+.tab-panel ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.tab-panel ul li {
+  margin-bottom: 6px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.tab-panel ul li:hover {
+  color: #111827;
+  transform: translateX(3px);
+}
+
+

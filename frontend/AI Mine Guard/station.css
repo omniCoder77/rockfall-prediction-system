@@ -1,0 +1,129 @@
+/* ===== Station Section ===== */
+.station-section {
+    padding: 2rem 1rem;
+}
+
+/* Station Name */
+.station-title {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+}
+
+/* Three Cards Row */
+.station-cards-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.station-card {
+    flex: 1 1 250px;
+    min-width: 200px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    text-align: center;
+    font-weight: 500;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+}
+
+.station-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(26, 115, 232, 0.2);
+}
+.station-update{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 800;
+    padding: 2rem;
+}
+
+/* Bottom Row 70-30 */
+.station-bottom-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.bottom-card {
+    flex: 1;
+    background: var(--card-bg);
+    border: 1px dashed var(--card-border);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: var(--transition);
+}
+
+.bottom-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 18px rgba(26, 115, 232, 0.15);
+}
+
+.bottom-card h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.img-placeholder {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed var(--text-secondary);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 0.95rem;
+    min-height: 150px;
+}
+
+/* 70-30 ratio */
+.risk-card {
+    flex: 7;
+}
+
+.fluctuation-card {
+    flex: 3;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .station-cards-row {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .station-card {
+        flex: 1 1 calc(50% - 1rem);
+    }
+
+    .station-bottom-row {
+        flex-direction: column;
+    }
+
+    .risk-card, .fluctuation-card {
+        flex: 1 1 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .station-cards-row {
+        flex-direction: column;
+    }
+
+    .station-card {
+        flex: 1 1 100%;
+    }
+}

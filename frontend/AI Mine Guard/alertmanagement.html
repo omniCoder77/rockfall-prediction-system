@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alerts Dashboard</title>
+  <link rel="stylesheet" href="updated.css">
+  <link rel="stylesheet" href="alertmanagement.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+     
+        <div class="app">
+            <div class="topbar">
+                <div class="topbar-center">
+                    <h1>AI Mineguard</h1>
+                </div>
+                <div class="topbar-right">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="notifications">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <span class="time" id="current-time">12:18 PM</span>
+                </div>
+            </div>
+
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-brand">
+                    <div class="brand-avatar" id="userAvatar">
+                        <span id="avatarInitials">A</span>
+                        <div class="avatar-edit">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <div class="brand-text">
+                        <p class="brand-name">
+                            <span id="userName">Admin User</span>
+                            <span class="username-edit" id="editUsername">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                        </p>
+                        <p class="brand-role" id="userRole">Admin</p>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li class="nav-item">
+                            <a href="index.html" class="nav-link active" data-page="dashboard">
+                                <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
+                                <span class="nav-text">Overview</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item nav-with-submenu">
+                            <button class="nav-link nav-toggle" aria-expanded="false">
+                                <span class="nav-icon"><i class="fa-solid fa-server"></i></span>
+                                <span class="nav-text">Stations</span>
+                                <span class="nav-caret"><i class="fa-solid fa-chevron-down"></i></span>
+                            </button>
+
+                            <ul class="nav-submenu">
+                                <li><a href="station1.html" class="submenu-link" data-page="station1">Station 1</a></li>
+                                <li><a href="station2.html" class="submenu-link" data-page="station2">Station 2</a></li>
+                                <li><a href="station3.html" class="submenu-link" data-page="station3">Station 3</a></li>
+                                <li><a href="station4.html" class="submenu-link" data-page="station4">Station 4</a></li>
+                                <li><a href="station5.html" class="submenu-link" data-page="station5">Station 5</a></li>
+                                <li><a href="station6.html" class="submenu-link" data-page="station6">Station 6</a></li>
+                                <li><a href="station7.html" class="submenu-link" data-page="station7">Station 7</a></li>
+                                <li><a href="station8.html" class="submenu-link" data-page="station8">Station 8</a></li>
+                                <li><a href="station9.html" class="submenu-link" data-page="station9">Station 9</a></li>
+                                <li><a href="station10.html" class="submenu-link" data-page="station10">Station 10</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="aioverview.html" class="nav-link" data-page="ai-overview">
+                                <span class="nav-icon"><i class="fa-solid fa-robot"></i></span>
+                                <span class="nav-text">AI Overview</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="alertmanagment.html" class="nav-link" data-page="alert-management">
+                                <span class="nav-icon"><i class="fa-solid fa-bell"></i></span>
+                                <span class="nav-text">Alert Management</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="sensornetwork.html" class="nav-link" data-page="sensor-network">
+                                <span class="nav-icon"><i class="fa-solid fa-network-wired"></i></span>
+                                <span class="nav-text">Sensor Network</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="minemap.html" class="nav-link" data-page="mine-map">
+                                <span class="nav-icon"><i class="fa-solid fa-map-location-dot"></i></span>
+                                <span class="nav-text">Mine Map</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <p>v2.1.0 • Secure Connection</p>
+                </div>
+            </aside>
+        
+            <main class="main">
+                <header class="top-header">
+                    <div class="header-left">
+                        <div class="header-logo">RG</div>
+                        <div class="project-title">AI-Based Rockfall Prediction and Alert System</div>
+                    </div>
+                    <div class="header-right">
+                        <div class="welcome-container">
+                            <div class="welcome-icon">
+                                <i class="fas fa-hand-wave"></i>
+                            </div>
+                            <div class="welcome-text">
+                                Welcome back, <span class="welcome-highlight" id="welcomeName">Admin</span>! Ready to monitor today's operations?
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+  <div class="alerts-container">
+
+    <!-- Alert Card 1 -->
+    <div class="alert-card critical">
+      <div class="alert-header">
+        <span class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+        <h3 class="alert-title">Crackmeter Threshold Exceeded</h3>
+        <div class="alert-badges">
+          <span class="badge badge-critical">critical</span>
+          <span class="badge badge-active">active</span>
+        </div>
+      </div>
+      <p class="alert-description">
+        Crackmeter CM-07 in Sector 7 shows 4.2mm displacement, exceeding 3.0mm safety threshold
+      </p>
+
+      <div class="alert-meta">
+        <p><strong>Alert ID:</strong> ALT-001</p>
+        <p><strong>Sector:</strong> Sector 7</p>
+        <p><strong>Sensor:</strong> Crackmeter CM-07</p>
+        <p><strong>Assigned To:</strong>Suresh</p>
+      </div>
+
+      <div class="alert-actions">
+        <span class="chip">Evacuate area</span>
+        <span class="chip">Inspect slope</span>
+        <span class="chip">Contact supervisor</span>
+      </div>
+
+      <div class="alert-footer">
+        <span class="timestamp">2024-01-15 14:23:15</span>
+        <div class="footer-buttons">
+          <button class="btn btn-secondary">Assigned To</button>
+          <button class="btn btn-secondary">View Details</button>
+          <button class="btn btn-primary">Status</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alert Card 2 -->
+    <div class="alert-card warning">
+      <div class="alert-header">
+        <span class="alert-icon"><i class="fa-solid fa-circle-exclamation"></i></span>
+        <h3 class="alert-title">Piezometer Pressure Rising</h3>
+        <div class="alert-badges">
+          <span class="badge badge-warning">warning</span>
+          <span class="badge badge-ack">acknowledged</span>
+        </div>
+      </div>
+      <p class="alert-description">
+        Groundwater pressure in PZ-05 showing upward trend, approaching warning levels
+      </p>
+
+      <div class="alert-meta">
+        <p><strong>Alert ID:</strong> ALT-002</p>
+        <p><strong>Sector:</strong> Sector 5</p>
+        <p><strong>Sensor:</strong> Piezometer PZ-05</p>
+        <p><strong>Assigned To:</strong> Sarah Johnson</p>
+      </div>
+
+      <div class="alert-actions">
+        <span class="chip">Monitor trend</span>
+        <span class="chip">Check drainage</span>
+        <span class="chip">Review rainfall data</span>
+      </div>
+
+      <div class="alert-footer">
+        <span class="timestamp">2024-01-15 14:25:30</span>
+        <div class="footer-buttons">
+          <button class="btn btn-secondary">Assigned To</button>
+          <ul class="nav-submenu">
+            <li><a href="station1.html" class="submenu-link" data-page="station1">Station 1</a></li>
+             <li><a href="station2.html" class="submenu-link" data-page="station2">Station 2</a></li>
+                                <li><a href="station3.html" class="submenu-link" data-page="station3">Station 3</a></li>
+                                <li><a href="station4.html" class="submenu-link" data-page="station4">Station 4</a></li>
+                                <li><a href="station5.html" class="submenu-link" data-page="station5">Station 5</a></li>
+                                <li><a href="station6.html" class="submenu-link" data-page="station6">Station 6</a></li>
+                                <li><a href="station7.html" class="submenu-link" data-page="station7">Station 7</a></li>
+                                <li><a href="station8.html" class="submenu-link" data-page="station8">Station 8</a></li>
+                                <li><a href="station9.html" class="submenu-link" data-page="station9">Station 9</a></li>
+                                <li><a href="station10.html" class="submenu-link" data-page="station10">Station 10</a></li>
+                            </ul>
+          <button class="btn btn-secondary">View Details</button>
+          <button class="btn btn-primary">Status</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rockfall Prediction System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="updated.css">
+</head>
+<body>
+    <!-- Auth Page (Login/Signup) -->
+    <!-- <div id="auth-page" class="page active">
+        <div class="auth-container">
+            <div class="auth-box">
+                <div class="auth-header">
+                    <svg class="shield-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="width: 80px; height: 80px; color: var(--primary); margin-bottom: 1rem;">
+                        <path d="M12 2L3 6v5c0 4.42 2.84 8.44 7 9.87V22h4v-1.13c4.16-1.43 7-5.45 7-9.87V6l-9-4zm-1 15.02c-3.32-1.12-5.74-4.54-5.74-8.02V7.12L12 4.16l5.74 2.96V9c0 3.48-2.42 6.9-5.74 8.02z"/>
+                        <path class="warning-triangle" d="M12 7l-5 9h10l-5-9z" fill="currentColor"/>
+                        <path class="warning-exclamation" d="M11 9h2l-1 4h-2l1-4zm0 5h2v2h-2v-2z" fill="currentColor"/>
+                    </svg>
+                    <h1 class="system-title">Rockfall Prediction System</h1>
+                    <p class="subtitle">Open-Pit Mine Safety Dashboard</p>
+                </div>
+                
+                <div class="auth-tabs">
+                    <div class="auth-tab active" data-tab="login">Login</div>
+                    <div class="auth-tab" data-tab="signup">Sign Up</div>
+                </div>
+                
+                <form class="auth-form" id="login-form">
+                    <div class="input-group">
+                        <label for="name">name</label>
+                        <input type="text" id="name" placeholder="Enter your name" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="submit" class="auth-btn">
+                        Access Dashboard
+                        <svg class="arrow-icon" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                        </svg>
+                    </button>
+                </form>
+
+                <form class="auth-form hidden" id="signup-form">
+                    <div class="input-group">
+                        <label for="signup-name">name</label>
+                        <input type="text" id="signup-name" placeholder="write your name" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="Create a password" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="signup-confirm-password">Confirm Password</label>
+                        <input type="password" id="signup-confirm-password" placeholder="Confirm your password" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" placeholder="Enter your email address" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="signup-phone">Phone Number</label>
+                        <input type="tel" id="signup-phone" placeholder="Enter your phone number" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="signup-id">ID</label>
+                        <input type="text" id="signup-id" placeholder="Enter your ID" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="signup-role">Role</label>
+                        <select id="signup-role" required>
+                            <option value="" disabled selected>Select your role</option>
+                            <option value="admin">Admin</option>
+                            <option value="supervisor">Supervisor</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="auth-btn">
+                        Create Account
+                        <svg class="arrow-icon" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                        </svg>
+                    </button>
+                </form>
+
+                <p class="demo-credentials">After signing up, use your credentials to login</p>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Dashboard Page -->
+
+    <div id="dashboard-page" class="page">
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button> 
+         
+        <div class="app">
+            <div class="topbar">
+                <div class="topbar-center">
+                    <h1>AI MINE-GUARD</h1>
+                </div>
+                <div class="topbar-right">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="notifications">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <span class="time" id="current-time">12:18 PM</span>
+                    <button class="logout-btn" id="logoutButton">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-brand">
+                    <div class="brand-avatar" id="userAvatar">
+                        <span id="avatarInitials">A</span>
+                        <div class="avatar-edit">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <div class="brand-text">
+                        <p class="brand-name">
+                            <span id="name">Admin User</span>
+                            <span class="name-edit" id="editname">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                        </p>
+                        <p class="brand-role" id="userRole">Admin</p>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active" data-page="dashboard">
+                                <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
+                                <span class="nav-text">Overview</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item nav-with-submenu">
+                            <button class="nav-link nav-toggle" aria-expanded="false">
+                                <span class="nav-icon"><i class="fa-solid fa-server"></i></span>
+                                <span class="nav-text">Stations</span>
+                                <span class="nav-caret"><i class="fa-solid fa-chevron-down"></i></span>
+                            </button>
+
+                            <ul class="nav-submenu">
+                                <li><a href="station1.html" class="submenu-link" data-page="station1">Station 1</a></li>
+                                <li><a href="station2.html" class="submenu-link" data-page="station2">Station 2</a></li>
+                                <li><a href="station3.html" class="submenu-link" data-page="station3">Station 3</a></li>
+                                <li><a href="station4.html" class="submenu-link" data-page="station4">Station 4</a></li>
+                                <li><a href="station5.html" class="submenu-link" data-page="station5">Station 5</a></li>
+                                <li><a href="station6.html" class="submenu-link" data-page="station6">Station 6</a></li>
+                                <li><a href="station7.html" class="submenu-link" data-page="station7">Station 7</a></li>
+                                <li><a href="station8.html" class="submenu-link" data-page="station8">Station 8</a></li>
+                                <li><a href="station9.html" class="submenu-link" data-page="station9">Station 9</a></li>
+                                <li><a href="station10.html" class="submenu-link" data-page="station10">Station 10</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="aioverview.html" class="nav-link" data-page="ai-overview">
+                                <span class="nav-icon"><i class="fa-solid fa-robot"></i></span>
+                                <span class="nav-text">AI Overview</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="alertmanagement.html" class="nav-link" data-page="alert-management">
+                                <span class="nav-icon"><i class="fa-solid fa-bell"></i></span>
+                                <span class="nav-text">Alert Management</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="sensornetwork.html" class="nav-link" data-page="sensor-network">
+                                <span class="nav-icon"><i class="fa-solid fa-network-wired"></i></span>
+                                <span class="nav-text">Sensor Network</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="minemap.html" class="nav-link" data-page="mine-map">
+                                <span class="nav-icon"><i class="fa-solid fa-map-location-dot"></i></span>
+                                <span class="nav-text">Mine Map</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <p>CAFFEINE CODERS</p>
+                </div>
+            </aside>
+        
+            <main class="main">
+                <header class="top-header">
+                    <div class="header-left">
+                        <div class="header-logo">MG</div>
+                        <div class="project-title">AI-Based Rockfall Prediction and Alert System</div>
+                    </div>
+                    <div class="header-right">
+                        <div class="welcome-container">
+                            <div class="welcome-icon">
+                                <i class="fas fa-hand-wave"></i>
+                            </div>
+                            <div class="welcome-text">
+                                Welcome back, <span class="welcome-highlight" id="welcomeName">Admin</span>! Ready to monitor today's operations?
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+
+
+
+
+
+              
+<div class="severity-cards">
+    <div class="severity-card warning" data-risk="warning">
+        <div class="card-header">
+            <span>Stations at Warning level</span>
+            <span class="icon">⚠</span>
+        </div>
+        <div class="card-main">75-100%</div>
+        <div class="card-sub">Critical risk level</div>
+        <div class="station-dropdown" id="warning-stations">
+            <div class="station-dropdown-item">
+                <i class="fas fa-map-marker-alt" style="color: var(--warning-color)"></i>
+                <span>Station 2 - 85%</span>
+            </div>
+            <div class="station-dropdown-item">
+                <i class="fas fa-map-marker-alt" style="color: var(--warning-color)"></i>
+                <span>Station 7 - 90%</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="severity-card high" data-risk="high">
+        <div class="card-header">
+            <span>Stations at High Risk</span>
+            <span class="icon">🔥</span>
+        </div>
+        <div class="card-main">50-75%</div>
+        <div class="card-sub">Elevated risk level</div>
+        <div class="station-dropdown" id="high-stations">
+            <div class="station-dropdown-item">
+                <i class="fas fa-map-marker-alt" style="color: var(--high-color)"></i>
+                <span>Station 1 - 65%</span>
+            </div>
+            <div class="station-dropdown-item">
+                <i class="fas fa-map-marker-alt" style="color: var(--high-color)"></i>
+                <span>Station 3 - 70%</span>
+            </div>
+            <div class="station-dropdown-item">
+                <i class="fas fa-map-marker-alt" style="color: var(--high-color)"></i>
+                <span>Station 6 - 60%</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="severity-card medium" data-risk="medium">
+        <div class="card-header">
+            <span>Stations at Medium Risk</span>
+            <span class="icon">📉</span>
+        </div>
+        <div class="card-main">20-50%</div>
+        <div class="card-sub">Moderate risk level</div>
+        <div class="station-dropdown" id="medium-stations">
+            <div class="station-dropdown-item">
+                <i class="fas fa-map-marker-alt" style="color: var(--medium-color)"></i>
+                <span>Station 4 - 45%</span>
+            </div>
+            <div class="station-dropdown-item">
+                <i class="fas fa-map-marker-alt" style="color: var(--medium-color)"></i>
+                <span>Station 8 - 40%</span>
+            </div>
+            <div class="station-dropdown-item">
+                <i class="fas fa-map-marker-alt" style="color: var(--medium-color)"></i>
+                <span>Station 6 - 60%</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="severity-card low" data-risk="low">
+        <div class="card-header">
+            <span>Stations at Low Risk</span>
+            <span class="icon">✅</span>
+        </div>
+        <div class="card-main">0-20%</div>
+        <div class="card-sub">Normal risk level</div>
+        <div class="station-dropdown" id="low-stations">
+            <div class="station-dropdown-item">
+                <i class="fas fa-map-marker-alt" style="color: var(--low-color)"></i>
+                <span>Station 5 - 15%</span>
+            </div>
+            <div class="station-dropdown-item">
+                <i class="fas fa-map-marker-alt" style="color: var(--low-color)"></i>
+                <span>Station 9 - 10%</span>
+            </div>
+            <div class="station-dropdown-item">
+                <i class="fas fa-map-marker-alt" style="color: var(--low-color)"></i>
+                <span>Station 10 - 5%</span>
+            </div>
+        </div>
+    </div>
+</div>
+                <section class="dashboard-grid">
+                    <div class="card heatmap-card" id="overview">
+                        <h2 class="card-title">
+                            Mine Overview
+                            <div class="card-actions">
+                                <div class="card-action" id="refreshHeatmap"><i class="fa-solid fa-rotate-right"></i></div>
+                                <div class="card-action" id="downloadHeatmap"><i class="fa-solid fa-download"></i></div>
+                                <div class="card-action" id="fullscreenHeatmap"><i class="fa-solid fa-expand"></i></div>
+                            </div>
+                        </h2>
+                        <div class="heatmap-container">
+                            <img src="heatmap.png" alt="Open pit mining site" class="mining-image" id="heatmapImage">
+                            <div class="heatmap-overlay">
+                                <span>Active Mining Area - North Pit</span>
+                                <div class="heatmap-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: var(--low-color);"></div>
+                                        <span>Low Risk (0-20%)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: var(--medium-color);"></div>
+                                        <span>Medium Risk (20-50%)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: var(--high-color);"></div>
+                                        <span>High Risk (50-75%)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: var(--warning-color);"></div>
+                                        <span>Warning (75-100%)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="heatmap-fullscreen" id="fullscreenHeatmapContainer">
+                        <div class="fullscreen-controls">
+                            <button class="fullscreen-btn" id="closeFullscreen"><i class="fas fa-times"></i></button>
+                            <button class="fullscreen-btn" id="downloadFullscreen"><i class="fas fa-download"></i></button>
+                        </div>
+                        <img src="" alt="Fullscreen Heatmap" id="fullscreenImage">
+                    </div>
+
+                    <aside class="card alerts-card">
+                        <h3 class="card-title">
+                            Alert Notifications
+                            <div class="card-actions">
+                                <div class="card-action"><i class="fa-solid fa-filter"></i></div>
+                                <div class="card-action"><i class="fa-solid fa-ellipsis-vertical"></i></div>
+                            </div>
+                        </h3>
+                        <div class="alerts-list">
+                            <div class="alert-item alert-high">
+                                <div class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                <div class="alert-content">
+                                    <div class="alert-title">Station 5 - High Risk</div>
+                                    <div class="alert-desc">Unusual seismic activity detected</div>
+                                    <div class="alert-time">5 minutes ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert-item alert-medium">
+                                <div class="alert-icon"><i class="fa-solid fa-clock"></i></div>
+                                <div class="alert-content">
+                                    <div class="alert-title">Station 3 - Maintenance</div>
+                                    <div class="alert-desc">Sensor requires calibration</div>
+                                    <div class="alert-time">45 minutes ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert-item alert-low">
+                                <div class="alert-icon"><i class="fa-solid fa-check-circle"></i></div>
+                                <div class="alert-content">
+                                    <div class="alert-title">System Update</div>
+                                    <div class="alert-desc">New prediction model deployed</div>
+                                    <div class="alert-time">2 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <div class="card station-risk-card" id="station-risk">
+                        <h3 class="card-title">
+                            Station Risk Probability
+                            <div class="card-actions">
+                                <div class="card-action" id="refreshStations"><i class="fa-solid fa-rotate-right"></i></div>
+                            </div>
+                        </h3>
+
+                        <div class="stations-visual-list" id="stationsList">
+                            <!-- Stations will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="card info-card" id="know-about">
+                        <h3 class="card-title">
+                            Safety Tips & Information
+                            <div class="card-actions">
+                                <div class="card-action"><i class="fa-solid fa-info"></i></div>
+                            </div>
+                        </h3>
+                        <div class="info-tips">
+                            <div class="info-tip">
+                                <div class="tip-icon"><i class="fa-solid fa-hard-hat"></i></div>
+                                <div class="tip-content">
+                                    <div class="tip-title">Safety Protocol</div>
+                                    <div class="tip-desc">Ensure all personnel are wearing proper protective equipment in high-risk zones.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="info-tip">
+                                <div class="tip-icon"><i class="fa-solid fa-cloud-rain"></i></div>
+                                <div class="tip-content">
+                                    <div class="tip-title">Weather Advisory</div>
+                                    <div class="tip-desc">Heavy rainfall expected in 48 hours. Monitor slopes for increased instability.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="info-tip">
+                                <div class="tip-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                                <div class="tip-content">
+                                    <div class="tip-title">Maintenance Schedule</div>
+                                    <div class="tip-desc">Next sensor calibration due in 3 days for Stations 2, 5 and 7.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="app-footer">
+                    <small>Prototype — Ministry of Mines / NIRM — Disaster Management Theme</small>
+                </footer>
+            </main>
+        </div>
+    </div>
+
+    <!-- Profile Picture Upload Modal -->
+    <div class="modal" id="avatarModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Update Profile Picture</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Select a new profile picture:</p>
+                <input type="file" id="avatarUpload" accept="image/*" style="margin: 1rem 0;">
+                <div id="avatarPreview" style="width: 150px; height: 150px; border-radius: 50%; background: #f0f0f0; margin: 1rem auto; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                    <span id="previewInitials">A</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-modal">Cancel</button>
+                <button class="btn btn-primary" id="saveAvatar">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- name Change Modal -->
+    <div class="modal" id="nameModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Change name</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label for="newname">New name</label>
+                    <input type="text" id="newname" placeholder="Enter new name">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary close-modal">Cancel</button>
+                <button class="btn btn-primary" id="savename">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+<script src="updated.js"></script>
+</body>
+</html>
